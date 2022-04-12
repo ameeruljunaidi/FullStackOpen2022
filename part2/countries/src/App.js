@@ -29,9 +29,33 @@ const CountryList = ({countries, searchKey, handleShow}) => (
 )
 
 const CountryDetails = ({country, handleShowAll}) => {
+    const [temperature, setTemperature] = useState(0.0)
+    const [windSpeed, setWindSpeed] = useState(0.0)
+    const [iconUrl, setIconUrl] = useState('')
+
+    const apiKey = process.env.REACT_APP_API_KEY
+
+    const countryName = country.name['common']
+    const countryLat = country['latlng'][0]
+    const countryLon = country['latlng'][1]
+
+    useEffect(() => {
+        axios
+            .get(`https://api.openweathermap.org/data/2.5/weather?lat=${countryLat}&lon=${countryLon}&appid=${apiKey}`)
+            .then(result => {
+                const weatherInfo = result.data
+
+                setTemperature((parseFloat(weatherInfo.main['temp']) - 32) * 5 / 9)
+                setWindSpeed(parseFloat(weatherInfo['wind']['speed']))
+                setIconUrl(`https://openweathermap.org/img/wn/${weatherInfo['weather']['icon']}`)
+            })
+        console.log('requested')
+    }, [apiKey, countryLat, countryLon])
+
+
     return (
         <>
-            <h1>{country.name['common']}</h1>
+            <h1>{countryName}</h1>
             <div>capital {country['capital']}</div>
             <div>area {country.area}</div>
             <h3>languages:</h3>
@@ -40,10 +64,16 @@ const CountryDetails = ({country, handleShowAll}) => {
                     return <li key={index}>{value}</li>
                 })}
             </ul>
-            <img src={country.flags['png']} alt={`${country.name['common']} flag`} />
+            <img src={country.flags['png']} alt={`${countryName} flag`} />
             <div>
                 <button onClick={handleShowAll}>show all</button>
             </div>
+            <div>
+                <h2>Weather in {countryName}</h2>
+            </div>
+            <div>temperature {temperature.toFixed(2)} Celsius</div>
+            <img src={iconUrl} alt="weather icon" />
+            <div>wind {windSpeed.toFixed(2)} m/s</div>
         </>
     )
 }
@@ -97,6 +127,9 @@ const App = () => {
     const handleShowAll = () => {
         setShowCountry(undefined)
     }
+
+    const countryName = 'temp'
+    const temperature = 3.7
 
     return (
         <>

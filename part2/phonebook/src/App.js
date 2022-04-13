@@ -3,6 +3,8 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import personService from './services/person'
+import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -10,6 +12,8 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('')
     const [filterValue, setFilterValue] = useState('')
     const [filteredPersons, setFilteredPersons] = useState([])
+    const [notificationMessage, setNotificationMessage] = useState(null)
+    const [successMessage, setSuccessMessage] = useState(true)
 
     useEffect(() => {
         personService
@@ -52,6 +56,8 @@ const App = () => {
                     setNewName('')
                     setNewNumber('')
                     setFilterValue('')
+                    setNotificationMessage(`Added ${returnedPerson['name']}`)
+                    setTimeout(() => setNotificationMessage(null), 5000)
                 })
         }
 
@@ -79,15 +85,24 @@ const App = () => {
 
         if (!window.confirm(`Delete ${person.name}?`)) return
 
-        personService.remove(personId).then(() => {
-            setPersons(persons.filter(person => person.id !== personId))
-        })
+        personService
+            .remove(personId)
+            .then(() => {
+                setPersons(persons.filter(person => person.id !== personId))
+            })
+            .catch(() => {
+                setNotificationMessage(`Information of ${person.name} has already been removed from server`)
+                setSuccessMessage(false)
+                setTimeout(() => setNotificationMessage(null), 5000)
+                setPersons(persons.filter(person => person.id !== personId))
+            })
 
     }
 
     return (
         <>
             <h2>Phonebook</h2>
+            <Notification message={notificationMessage} success={successMessage} />
             <Filter filterValue={filterValue} onChange={handleFilterChange} />
             <h2>add a new</h2>
             <PersonForm

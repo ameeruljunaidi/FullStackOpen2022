@@ -44,14 +44,11 @@ const CountryDetails = ({country, handleShowAll}) => {
             .get(`https://api.openweathermap.org/data/2.5/weather?lat=${countryLat}&lon=${countryLon}&appid=${apiKey}`)
             .then(result => {
                 const weatherInfo = result.data
-
-                setTemperature((parseFloat(weatherInfo.main['temp']) - 32) * 5 / 9)
+                setTemperature(parseFloat(weatherInfo.main['temp']) - 273.15)
                 setWindSpeed(parseFloat(weatherInfo['wind']['speed']))
-                setIconUrl(`https://openweathermap.org/img/wn/${weatherInfo['weather']['icon']}`)
+                setIconUrl(`https://openweathermap.org/img/wn/${weatherInfo['weather'][0]['icon']}.png`)
             })
-        console.log('requested')
-    }, [apiKey, countryLat, countryLon])
-
+    }, [apiKey, countryLat, countryLon, iconUrl])
 
     return (
         <>
@@ -110,9 +107,7 @@ const App = () => {
     useEffect(() => {
         axios
             .get('https://restcountries.com/v3.1/all')
-            .then(result => {
-                setCountries(result.data)
-            })
+            .then(result => setCountries(result.data))
     }, [])
 
     const handleShow = countryName => event => {
@@ -127,9 +122,6 @@ const App = () => {
     const handleShowAll = () => {
         setShowCountry(undefined)
     }
-
-    const countryName = 'temp'
-    const temperature = 3.7
 
     return (
         <>

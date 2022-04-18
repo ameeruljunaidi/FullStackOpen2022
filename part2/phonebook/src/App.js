@@ -37,25 +37,40 @@ const App = () => {
 
             if (!window.confirm(message)) return
 
-            personService.update(updated.id, updated).then(retrievedPerson => {
-                setPersons(
-                    persons.map(person => {
-                        return person.id !== updated.id ? person : retrievedPerson
-                    })
-                )
-            })
+            personService
+                .update(updated.id, updated)
+                .then(retrievedPerson => {
+                    setPersons(
+                        persons.map(person => {
+                            return person.id !== updated.id ? person : retrievedPerson
+                        })
+                    )
+                })
+                .catch(error => {
+                    setNotificationMessage(error.response.data.error)
+                    setSuccessMessage(false)
+                    setTimeout(() => setNotificationMessage(null), 5000)
+                })
         } else {
             const newNameObject = { name: newName, number: newNumber, id: persons.length + 1 }
 
-            personService.create(newNameObject).then(returnedPerson => {
-                setPersons(persons.concat(returnedPerson))
-                setFilteredPersons(persons)
-                setNewName('')
-                setNewNumber('')
-                setFilterValue('')
-                setNotificationMessage(`Added ${returnedPerson['name']}`)
-                setTimeout(() => setNotificationMessage(null), 5000)
-            })
+            personService
+                .create(newNameObject)
+                .then(returnedPerson => {
+                    setPersons(persons.concat(returnedPerson))
+                    setFilteredPersons(persons)
+                    setNewName('')
+                    setNewNumber('')
+                    setFilterValue('')
+                    setSuccessMessage(true)
+                    setNotificationMessage(`Added ${returnedPerson['name']}`)
+                    setTimeout(() => setNotificationMessage(null), 5000)
+                })
+                .catch(error => {
+                    setSuccessMessage(false)
+                    setNotificationMessage(error.response.data.error)
+                    setTimeout(() => setNotificationMessage(null), 5000)
+                })
         }
     }
 

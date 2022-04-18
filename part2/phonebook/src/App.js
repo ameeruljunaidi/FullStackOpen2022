@@ -16,9 +16,7 @@ const App = () => {
     const [successMessage, setSuccessMessage] = useState(true)
 
     useEffect(() => {
-        personService
-            .getAll()
-            .then(retrievedPersons => setPersons(retrievedPersons))
+        personService.getAll().then(retrievedPersons => setPersons(retrievedPersons))
     }, [])
 
     useEffect(() => {
@@ -39,28 +37,26 @@ const App = () => {
 
             if (!window.confirm(message)) return
 
-            personService
-                .update(updated.id, updated)
-                .then(retrievedPerson => {
-                    setPersons(persons.map(person => person.id !== updated.id ? person : retrievedPerson))
-                })
-
+            personService.update(updated.id, updated).then(retrievedPerson => {
+                setPersons(
+                    persons.map(person => {
+                        return person.id !== updated.id ? person : retrievedPerson
+                    })
+                )
+            })
         } else {
             const newNameObject = { name: newName, number: newNumber, id: persons.length + 1 }
 
-            personService
-                .create(newNameObject)
-                .then(returnedPerson => {
-                    setPersons(persons.concat(returnedPerson))
-                    setFilteredPersons(persons)
-                    setNewName('')
-                    setNewNumber('')
-                    setFilterValue('')
-                    setNotificationMessage(`Added ${returnedPerson['name']}`)
-                    setTimeout(() => setNotificationMessage(null), 5000)
-                })
+            personService.create(newNameObject).then(returnedPerson => {
+                setPersons(persons.concat(returnedPerson))
+                setFilteredPersons(persons)
+                setNewName('')
+                setNewNumber('')
+                setFilterValue('')
+                setNotificationMessage(`Added ${returnedPerson['name']}`)
+                setTimeout(() => setNotificationMessage(null), 5000)
+            })
         }
-
     }
 
     const handleFilterChange = event => {
@@ -96,7 +92,6 @@ const App = () => {
                 setTimeout(() => setNotificationMessage(null), 5000)
                 setPersons(persons.filter(person => person.id !== personId))
             })
-
     }
 
     return (

@@ -1,6 +1,6 @@
-const favoriteBlog = require('../utils/list_helper').favoriteBlog
+const favoriteBlog = require('../utils/list_helper').mostBlogs
 
-describe('Favorite blog', () => {
+describe('Most active blogger', () => {
     const listWithOneBlog = [
         {
             _id: '5a422aa71b54a676234d17f8',
@@ -68,21 +68,19 @@ describe('Favorite blog', () => {
         expect(result).toBe(undefined)
     })
 
-    test('when list has only one blog, equals the blog', () => {
+    test('when list has only one blog with one author, equals the author', () => {
         const result = favoriteBlog(listWithOneBlog)
         expect(result).toEqual({
-            title: 'Go To Statement Considered Harmful',
             author: 'Edsger W. Dijkstra',
-            likes: 5,
+            blogs: 1
         })
     })
 
     test('of a bigger list is right', () => {
         const result = favoriteBlog(manyBlogs)
         expect(result).toEqual({
-            title: 'Canonical string reduction',
-            author: 'Edsger W. Dijkstra',
-            likes: 12,
+            author: 'Robert C. Martin',
+            blogs: 3
         })
     })
 })

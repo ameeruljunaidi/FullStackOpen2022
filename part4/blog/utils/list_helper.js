@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 // eslint-disable-next-line no-unused-vars
 const dummy = (_) => 1
 
@@ -7,11 +9,9 @@ const totalLikes = (blogs) =>
         : blogs.reduce((total, blog) => total + blog.likes, 0)
 
 const favoriteBlog = (blogs) => {
-    const maxLikes = blogs.length === 0
-        ? undefined
-        : blogs.reduce((max, current) => current.likes > max.likes ? current : max, {likes: 0})
+    if (blogs.length === 0) return undefined
 
-    if (!maxLikes) return undefined
+    const maxLikes = blogs.reduce((max, current) => current.likes > max.likes ? current : max, { likes: 0 })
 
     return {
         title: maxLikes.title,
@@ -20,9 +20,23 @@ const favoriteBlog = (blogs) => {
     }
 }
 
+const mostBlogs = (blogs) => {
+    if (blogs.length === 0) return undefined
+
+    const groupedByAuthor = Object.entries(_.countBy(blogs, 'author'))
+        .map(([author, count]) => ({
+            author: author,
+            blogs: count
+        }))
+
+    return groupedByAuthor.reduce((max, current) => {
+        return current.blogs > max.blogs ? current : max
+    }, { blogs: 0 })
+}
 
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }

@@ -1,4 +1,4 @@
-const mostBlogs = require('../utils/list_helper').mostBlogs
+const mostLikes = require('../utils/list_helper').mostLikes
 
 describe('Most active blogger', () => {
     const listWithOneBlog = [
@@ -64,23 +64,23 @@ describe('Most active blogger', () => {
     ]
 
     test('of empty list is undefined', () => {
-        const result = mostBlogs([])
+        const result = mostLikes([])
         expect(result).toBe(undefined)
     })
 
     test('when list has only one blog with one author, equals the author', () => {
-        const result = mostBlogs(listWithOneBlog)
+        const result = mostLikes(listWithOneBlog)
         expect(result).toEqual({
             author: 'Edsger W. Dijkstra',
-            blogs: 1
+            likes: 5
         })
     })
 
     test('of a bigger list is right', () => {
-        const result = mostBlogs(manyBlogs)
+        const result = mostLikes(manyBlogs)
         expect(result).toEqual({
-            author: 'Robert C. Martin',
-            blogs: 3
+            author: 'Edsger W. Dijkstra',
+            likes: 17
         })
     })
 })

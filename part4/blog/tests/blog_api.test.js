@@ -9,10 +9,9 @@ const initialBlogs = require('./test_data').listWithManyBlogs
 beforeEach(async () => {
     await Blog.deleteMany({})
 
-    const blogsPromises = initialBlogs
-        .map((blog) => new Blog(blog))
-        .map((blogPromise) => blogPromise.save())
-    await Promise.all(blogsPromises)
+    const blogList = initialBlogs.map(blog => new Blog(blog))
+    const blogPromises = blogList.map(blogPromise => blogPromise.save())
+    await Promise.all(blogPromises)
 })
 
 describe('When there is initially some blogs saved', () => {
@@ -60,9 +59,7 @@ describe('Viewing a specific blog', () => {
     test('fails with status code 404 is note does not exist', async () => {
         const nonExistingId = await helper.nonExistingId()
 
-        await api
-            .get(`/api/blogs/${nonExistingId}`)
-            .expect(404)
+        await api.get(`/api/blogs/${nonExistingId}`).expect(404)
     })
 })
 
@@ -111,10 +108,7 @@ describe('Addition of a new blog', () => {
             likes: 27,
         }
 
-        await api
-            .post('/api/blogs')
-            .send(newBlog)
-            .expect(400)
+        await api.post('/api/blogs').send(newBlog).expect(400)
 
         const blogsAtEnd = await helper.blogsInDb()
 
@@ -127,9 +121,7 @@ describe('Deletion of a blog', () => {
         const blogsAtStart = await helper.blogsInDb()
         const noteToDelete = blogsAtStart[0]
 
-        await api
-            .delete(`/api/blogs/${noteToDelete.id}`)
-            .expect(200)
+        await api.delete(`/api/blogs/${noteToDelete.id}`).expect(200)
 
         const blogsAtEnd = await helper.blogsInDb()
         const blogTitles = blogsAtEnd.map(blog => blog.title)
@@ -141,9 +133,7 @@ describe('Deletion of a blog', () => {
     test('fails with status code 404 if note does not exist', async () => {
         const nonExistingId = await helper.nonExistingId()
 
-        await api
-            .delete(`/api/blogs/${nonExistingId}`)
-            .expect(404)
+        await api.delete(`/api/blogs/${nonExistingId}`).expect(404)
     })
 })
 
@@ -156,7 +146,7 @@ describe('Updating of a blog', () => {
             title: blogToUpdate.title,
             author: blogToUpdate.author,
             url: blogToUpdate.url,
-            likes: 999
+            likes: 999,
         }
 
         await api
@@ -177,10 +167,7 @@ describe('Updating of a blog', () => {
         const blogsAtStart = await helper.blogsInDb()
         const blogToUpdate = blogsAtStart[0]
 
-        await api
-            .put(`/api/blogs/${nonExistingId}`)
-            .send(blogToUpdate)
-            .expect(400)
+        await api.put(`/api/blogs/${nonExistingId}`).send(blogToUpdate).expect(400)
     })
 })
 

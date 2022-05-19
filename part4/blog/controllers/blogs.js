@@ -13,7 +13,7 @@ blogsRouter.get('/api/blogs', async (request, response) => {
 blogsRouter.get('/api/blogs/:id', async (request, response) => {
     const blogFound = await Blog.findById(request.params.id)
     if (blogFound) response.json(blogFound)
-    else response.status(404).end()
+    else response.status(400).end()
 })
 
 blogsRouter.post('/api/blogs', async (request, response) => {

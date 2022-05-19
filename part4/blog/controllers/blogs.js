@@ -17,7 +17,15 @@ blogsRouter.get('/api/blogs/:id', async (request, response) => {
 })
 
 blogsRouter.post('/api/blogs', async (request, response) => {
-    const blog = new Blog(request.body)
+    const requestBlog = request.body
+
+    const blog = new Blog({
+        title: requestBlog.title,
+        author: requestBlog.author,
+        url: requestBlog.url,
+        likes: requestBlog.likes ? requestBlog.likes : 0
+    })
+
     const result = await blog.save()
     response.status(201).json(result)
 })

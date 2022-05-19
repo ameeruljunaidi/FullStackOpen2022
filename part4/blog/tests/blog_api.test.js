@@ -122,7 +122,7 @@ describe('Addition of a new blog', () => {
     })
 })
 
-describe('Deletion of a blgo', () => {
+describe('Deletion of a blog', () => {
     test('succeeds with status code 200 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDb()
         const noteToDelete = blogsAtStart[0]
@@ -138,7 +138,7 @@ describe('Deletion of a blgo', () => {
         expect(blogTitles).not.toContain(noteToDelete.title)
     })
 
-    test('fails with status code 404 is note does not exist', async () => {
+    test('fails with status code 404 if note does not exist', async () => {
         const nonExistingId = await helper.nonExistingId()
 
         await api
@@ -170,6 +170,17 @@ describe('Updating of a blog', () => {
 
         expect(blogAtEnd).toHaveLength(initialBlogs.length)
         expect(likes).toContain(999)
+    })
+
+    test('fails with status code 400 if code does not exist', async () => {
+        const nonExistingId = helper.nonExistingId()
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToUpdate = blogsAtStart[0]
+
+        await api
+            .put(`/api/blogs/${nonExistingId}`)
+            .send(blogToUpdate)
+            .expect(400)
     })
 })
 

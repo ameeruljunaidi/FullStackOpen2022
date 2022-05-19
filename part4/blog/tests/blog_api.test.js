@@ -122,7 +122,7 @@ describe('Addition of a new blog', () => {
     })
 })
 
-describe('Deletion of a note', () => {
+describe('Deletion of a blgo', () => {
     test('succeeds with status code 200 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDb()
         const noteToDelete = blogsAtStart[0]
@@ -144,6 +144,32 @@ describe('Deletion of a note', () => {
         await api
             .delete(`/api/blogs/${nonExistingId}`)
             .expect(404)
+    })
+})
+
+describe('Updating of a blog', () => {
+    test('succeeds with status code 200 if id is valid', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToUpdate = blogsAtStart[0]
+
+        const updatedBlog = {
+            title: blogToUpdate.title,
+            author: blogToUpdate.author,
+            url: blogToUpdate.url,
+            likes: 999
+        }
+
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(updatedBlog)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const blogAtEnd = await helper.blogsInDb()
+        const likes = blogAtEnd.map(blog => blog.likes)
+
+        expect(blogAtEnd).toHaveLength(initialBlogs.length)
+        expect(likes).toContain(999)
     })
 })
 

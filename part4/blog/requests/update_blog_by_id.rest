@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/6286523626d13740712464b8
+Content-Type: application/json
+
+{
+  "title": "replace blog again",
+  "author": "test author",
+  "url": "https://test.url",
+  "likes": 4
+}

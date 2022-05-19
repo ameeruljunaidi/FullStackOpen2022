@@ -13,7 +13,7 @@ blogsRouter.get('/api/blogs', async (request, response) => {
 blogsRouter.get('/api/blogs/:id', async (request, response) => {
     const blogFound = await Blog.findById(request.params.id)
     if (blogFound) response.json(blogFound)
-    else response.status(400).end()
+    else response.status(404).end()
 })
 
 blogsRouter.post('/api/blogs', async (request, response) => {
@@ -32,12 +32,13 @@ blogsRouter.post('/api/blogs', async (request, response) => {
 
 blogsRouter.delete('/api/blogs/', async (request, response) => {
     await Blog.deleteMany({})
-    response.status(204).end()
+    response.status(200).end()
 })
 
 blogsRouter.delete('/api/blogs/:id', async (request, response) => {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
+    const result = await Blog.findByIdAndRemove(request.params.id)
+    if (!result) response.status(404).end()
+    else response.status(200).end()
 })
 
 module.exports = blogsRouter

@@ -6,29 +6,22 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const initialBlogs = require('./test_data').listWithManyBlogs
 
-describe('Blog API testing', () => {
-    beforeEach(async () => {
-        await Blog.deleteMany({})
+beforeEach(async () => {
+    await Blog.deleteMany({})
 
-        const blogsPromises = initialBlogs
-            .map((blog) => new Blog(blog))
-            .map((blogPromise) => blogPromise.save())
-        await Promise.all(blogsPromises)
-    })
+    const blogsPromises = initialBlogs
+        .map((blog) => new Blog(blog))
+        .map((blogPromise) => blogPromise.save())
+    await Promise.all(blogsPromises)
+})
 
+describe('When there is initially some blogs saved', () => {
     test('blogs are returned as JSON', async () => {
         await api
             .get('/api/blogs')
             .expect(200)
             .expect('Content-Type', /application\/json/)
     }, 100000)
-
-    test('verify unique id is named id and not _id', async () => {
-        const blogsAtStart = await helper.blogsInDb()
-        const firstBlog = blogsAtStart[0]
-
-        expect(firstBlog.id).toBeDefined()
-    })
 
     test('all blogs are returned', async () => {
         const response = await api.get('/api/blogs')
@@ -42,7 +35,16 @@ describe('Blog API testing', () => {
         expect(contents).toContain('React patterns')
     })
 
-    test('a specific blog can be viewed', async () => {
+    test('verify unique id is named id and not _id', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const firstBlog = blogsAtStart[0]
+
+        expect(firstBlog.id).toBeDefined()
+    })
+})
+
+describe('Viewing a specific blog', () => {
+    test('succeeds with a valid id', async () => {
         const blogAtStart = await helper.blogsInDb()
         const blogToView = blogAtStart[0]
 
@@ -55,7 +57,17 @@ describe('Blog API testing', () => {
         expect(resultBlog.body).toEqual(processedBlogToView)
     })
 
-    test('a valid blog can be added', async () => {
+    test('fails with status code 404 is note does not exist', async () => {
+        const nonExistingId = await helper.nonExistingId()
+
+        await api
+            .get(`/api/blogs/${nonExistingId}`)
+            .expect(404)
+    })
+})
+
+describe('Addition of a new blog', () => {
+    test('succeeds with valid data', async () => {
         const newBlog = {
             title: 'Charlie and The Chocolate Factory',
             author: 'John Travolta',
@@ -76,7 +88,7 @@ describe('Blog API testing', () => {
         expect(contents).toContain('Charlie and The Chocolate Factory')
     })
 
-    test('if likes property is missing, it will default to 0', async () => {
+    test('with likes property missing, will default to 0', async () => {
         const newBlog = {
             title: 'This object has no likes :(',
             author: 'The Likeless Monster',
@@ -93,7 +105,7 @@ describe('Blog API testing', () => {
         expect(result.body.likes).toBe(0)
     })
 
-    test('blog without title and url return 400 bad request', async () => {
+    test('without title and url return 400 bad request', async () => {
         const newBlog = {
             author: 'John Travolta',
             likes: 27,
@@ -108,14 +120,16 @@ describe('Blog API testing', () => {
 
         expect(blogsAtEnd).toHaveLength(initialBlogs.length)
     })
+})
 
-    test('a specific blog can be deleted', async () => {
+describe('Deletion of a note', () => {
+    test('succeeds with status code 200 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDb()
         const noteToDelete = blogsAtStart[0]
 
         await api
             .delete(`/api/blogs/${noteToDelete.id}`)
-            .expect(204)
+            .expect(200)
 
         const blogsAtEnd = await helper.blogsInDb()
         const blogTitles = blogsAtEnd.map(blog => blog.title)
@@ -124,5 +138,13 @@ describe('Blog API testing', () => {
         expect(blogTitles).not.toContain(noteToDelete.title)
     })
 
-    afterAll(() => mongoose.connection.close())
+    test('fails with status code 404 is note does not exist', async () => {
+        const nonExistingId = await helper.nonExistingId()
+
+        await api
+            .delete(`/api/blogs/${nonExistingId}`)
+            .expect(404)
+    })
 })
+
+afterAll(() => mongoose.connection.close())

@@ -76,10 +76,26 @@ describe('Blog API testing', () => {
         expect(contents).toContain('Charlie and The Chocolate Factory')
     })
 
-    test('blog without title is not added', async () => {
+    test('if likes property is missing, it will default to 0', async () => {
+        const newBlog = {
+            title: 'This object has no likes :(',
+            author: 'The Likeless Monster',
+            url: 'https://ihavenolikes.aww',
+        }
+
+        const result = await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        expect(result.body.likes).toBeDefined()
+        expect(result.body.likes).toBe(0)
+    })
+
+    test('blog without title and url return 400 bad request', async () => {
         const newBlog = {
             author: 'John Travolta',
-            url: 'https://www.google.com',
             likes: 27,
         }
 

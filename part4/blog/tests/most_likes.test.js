@@ -11,7 +11,7 @@ describe('Most active blogger', () => {
         const result = mostLikes(listWithOneBlog)
         expect(result).toEqual({
             author: 'Edsger W. Dijkstra',
-            likes: 5
+            likes: 5,
         })
     })
 
@@ -19,7 +19,7 @@ describe('Most active blogger', () => {
         const result = mostLikes(listWithManyBlogs)
         expect(result).toEqual({
             author: 'Edsger W. Dijkstra',
-            likes: 17
+            likes: 17,
         })
     })
 })

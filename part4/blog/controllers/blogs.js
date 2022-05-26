@@ -2,21 +2,17 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response) => {
-    await response.send('This is the blog app.')
-})
-
-blogsRouter.get('/api/blogs', async (request, response) => {
     const blogs = await Blog.find({})
     response.json(blogs)
 })
 
-blogsRouter.get('/api/blogs/:id', async (request, response) => {
+blogsRouter.get('/:id', async (request, response) => {
     const blogFound = await Blog.findById(request.params.id)
     if (blogFound) response.json(blogFound)
     else response.status(404).end()
 })
 
-blogsRouter.post('/api/blogs', async (request, response) => {
+blogsRouter.post('/', async (request, response) => {
     const requestBlog = request.body
 
     const blog = new Blog({
@@ -30,7 +26,7 @@ blogsRouter.post('/api/blogs', async (request, response) => {
     response.status(201).json(result)
 })
 
-blogsRouter.put('/api/blogs/:id', async (request, response, next) => {
+blogsRouter.put('/:id', async (request, response, next) => {
     const body = request.body
 
     const blog = {
@@ -49,12 +45,12 @@ blogsRouter.put('/api/blogs/:id', async (request, response, next) => {
     }
 })
 
-blogsRouter.delete('/api/blogs/', async (request, response) => {
+blogsRouter.delete('/', async (request, response) => {
     await Blog.deleteMany({})
     response.status(200).end()
 })
 
-blogsRouter.delete('/api/blogs/:id', async (request, response) => {
+blogsRouter.delete('/:id', async (request, response) => {
     const result = await Blog.findByIdAndRemove(request.params.id)
     if (!result) response.status(404).end()
     else response.status(200).end()

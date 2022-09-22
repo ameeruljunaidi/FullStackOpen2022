@@ -3,24 +3,27 @@ const app = require('../app')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const Blog = require('../models/Blog')
 const helper = require('./test_helper')
+const mongoose = require('mongoose')
+
+beforeEach(async () => {
+    await User.deleteMany({})
+
+    const saltRounds = 10
+    const password = 'this-is-a-password'
+    const passwordHash = await bcrypt.hash(password, saltRounds)
+
+    const user = new User({
+        username: 'initial-username',
+        name: 'initial-name',
+        passwordHash: passwordHash
+    })
+
+    await user.save()
+})
 
 describe('When there is initially one user in db', () => {
-    beforeEach(async () => {
-        await User.deleteMany({})
-
-        const saltRounds = 10
-        const password = 'this-is-a-password'
-        const passwordHash = await bcrypt.hash(password, saltRounds)
-
-        const user = new User({
-            username: 'initial-username',
-            name: 'initial-name',
-            passwordHash: passwordHash
-        })
-
-        await user.save()
-    })
 
     test('creation succeeds with a fresh username', async () => {
         const usersAtStart = await helper.usersInDb()
@@ -132,4 +135,35 @@ describe('When there is initially one user in db', () => {
     })
 })
 
+describe('When adding blogs with user data', () => {
+    test('includes the user id if included', async () => {
+        const userAtStart = await helper.usersInDb()
+        const selectedUser = userAtStart[0]
+        const userId = selectedUser._id
 
+        const blog = {
+            title: 'Top Gun',
+            author: 'Tom Cruise',
+            url: 'https://www.tomcruise.com',
+            likes: 234,
+            userId: userId
+        }
+
+        const result = await api
+            .post('/api/blogs')
+            .send(blog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const usersAtEnd = await helper.usersInDb()
+        const userAtEnd = usersAtEnd[0]
+        const userAtEndBlogs = userAtEnd.blogs
+        // const blogsAtEnd = await helper.blogsInDb()
+        // const blogsUsers = blogsAtEnd.map(blog => blog.user)
+
+        expect(userAtEndBlogs).toHaveLength(1)
+        expect(userAtEndBlogs).toContain(result._body.id)
+    })
+})
+
+afterAll(() => mongoose.connection.close())

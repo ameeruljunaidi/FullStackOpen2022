@@ -19,8 +19,14 @@ const usersInDb = async () => {
     return users.map(user => user.toJSON())
 }
 
+const dummyUser = async () => {
+    const user = await Blog.find({})[0]
+    return user
+}
+
 module.exports = {
     nonExistingId,
     blogsInDb,
-    usersInDb
+    usersInDb,
+    dummyUser
 }

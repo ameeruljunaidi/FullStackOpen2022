@@ -139,7 +139,7 @@ describe('When adding blogs with user data', () => {
     test('includes the user id if included', async () => {
         const userAtStart = await helper.usersInDb()
         const selectedUser = userAtStart[0]
-        const userId = selectedUser._id
+        const userId = selectedUser.id
 
         const blog = {
             title: 'Top Gun',
@@ -162,7 +162,7 @@ describe('When adding blogs with user data', () => {
         // const blogsUsers = blogsAtEnd.map(blog => blog.user)
 
         expect(userAtEndBlogs).toHaveLength(1)
-        expect(userAtEndBlogs).toContain(result._body.id)
+        expect(userAtEndBlogs[0].toString()).toContain(result._body.id)
     })
 })
 

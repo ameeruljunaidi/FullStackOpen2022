@@ -1,6 +1,7 @@
 const bcypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const { response } = require('express')
 
 usersRouter.get('/', async (request, response) => {
     const users = await User
@@ -46,6 +47,11 @@ usersRouter.post('/', async (request, response) => {
     const savedUser = await user.save()
 
     response.status(201).json(savedUser)
+})
+
+usersRouter.delete('/', async (_, response) => {
+    await User.deleteMany({})
+    response.status(200).end()
 })
 
 module.exports = usersRouter

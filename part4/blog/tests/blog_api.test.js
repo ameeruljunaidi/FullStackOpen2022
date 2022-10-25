@@ -5,11 +5,27 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const initialBlogs = require('./test_data').listWithManyBlogs
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const { getUser, getToken } = require('./test_helper')
 
 beforeEach(async () => {
+    await User.deleteMany({})
+
+    const user = new User({
+        username: 'initial-username',
+        name: 'initial-name',
+        passwordHash: 'random-password'
+    })
+
+    await user.save()
+
     await Blog.deleteMany({})
 
-    const blogList = initialBlogs.map(blog => new Blog(blog))
+    const userId = helper.getUserIdFromDb()
+    const blogList = initialBlogs
+        .map(blog => ({ ...blog, userId: userId }))
+        .map(blog => new Blog(blog))
     const blogPromises = blogList.map(blogPromise => blogPromise.save())
     await Promise.all(blogPromises)
 })
@@ -64,17 +80,39 @@ describe('Viewing a specific blog', () => {
 })
 
 describe('Addition of a new blog', () => {
-    test('succeeds with valid data', async () => {
+    test('fails if no token is provided', async () => {
         const newBlog = {
-            title: 'Charlie and The Chocolate Factory',
-            author: 'John Travolta',
-            url: 'https://www.google.com',
+            title: 'random-title',
+            author: 'random-author',
+            url: 'https://random-url.random',
             likes: 27,
         }
 
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .expect(401)
+            .expect('Content-Type', /application\/json/)
+    })
+
+    test('succeeds with valid data', async () => {
+        const user = await getUser()
+        const userId = user.id
+
+        const newBlog = {
+            title: 'Charlie and The Chocolate Factory',
+            author: 'John Travolta',
+            url: 'https://www.google.com',
+            likes: 27,
+            userId: userId
+        }
+
+        const token = await helper.getToken()
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .set('Authorization', `bearer ${token}`)
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -86,15 +124,22 @@ describe('Addition of a new blog', () => {
     })
 
     test('with likes property missing, will default to 0', async () => {
+        const user = await getUser()
+        const userId = user.id
+
         const newBlog = {
             title: 'This object has no likes :(',
             author: 'The Likeless Monster',
             url: 'https://ihavenolikes.aww',
+            userId: userId
         }
+
+        const token = await helper.getToken()
 
         const result = await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', `bearer ${token}`)
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -103,12 +148,22 @@ describe('Addition of a new blog', () => {
     })
 
     test('without title and url return 400 bad request', async () => {
+        const user = await getUser()
+        const userId = user.id
+
         const newBlog = {
             author: 'John Travolta',
             likes: 27,
+            userId: userId
         }
 
-        await api.post('/api/blogs').send(newBlog).expect(400)
+        const token = await helper.getToken()
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .set('Authorization', `bearer ${token}`)
+            .expect(400)
 
         const blogsAtEnd = await helper.blogsInDb()
 
@@ -121,7 +176,12 @@ describe('Deletion of a blog', () => {
         const blogsAtStart = await helper.blogsInDb()
         const noteToDelete = blogsAtStart[0]
 
-        await api.delete(`/api/blogs/${noteToDelete.id}`).expect(200)
+        const token = await helper.getToken()
+
+        await api
+            .delete(`/api/blogs/${noteToDelete.id}`)
+            .set('Authorization', `bearer ${token}`)
+            .expect(200)
 
         const blogsAtEnd = await helper.blogsInDb()
         const blogTitles = blogsAtEnd.map(blog => blog.title)
@@ -133,7 +193,11 @@ describe('Deletion of a blog', () => {
     test('fails with status code 404 if note does not exist', async () => {
         const nonExistingId = await helper.nonExistingId()
 
-        await api.delete(`/api/blogs/${nonExistingId}`).expect(404)
+        const token = await helper.getToken()
+
+        await api
+            .delete(`/api/blogs/${nonExistingId}`).expect(404)
+            .set('Authorization', `bearer ${token}`)
     })
 })
 

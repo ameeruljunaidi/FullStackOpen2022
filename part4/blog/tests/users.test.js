@@ -6,6 +6,7 @@ const User = require('../models/user')
 const Blog = require('../models/Blog')
 const helper = require('./test_helper')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 
 beforeEach(async () => {
     await User.deleteMany({})
@@ -149,8 +150,11 @@ describe('When adding blogs with user data', () => {
             userId: userId
         }
 
+        const token = jwt.sign({ id: userId }, process.env.SECRET)
+
         const result = await api
             .post('/api/blogs')
+            .set('Authorization', `bearer ${token}`)
             .send(blog)
             .expect(201)
             .expect('Content-Type', /application\/json/)

@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const User = require('../models/user')
 const listWithOneBlog = [
     {
         _id: '5a422aa71b54a676234d17f8',
@@ -70,12 +69,12 @@ const dummyUser = async () => {
     return {
         username: 'initial-username',
         name: 'initial-name',
-        passwordHash: passwordHash
+        passwordHash: passwordHash,
     }
 }
 
 module.exports = {
     listWithOneBlog,
     listWithManyBlogs,
-    dummyUser
+    dummyUser,
 }

@@ -6,8 +6,7 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const initialBlogs = require('./test_data').listWithManyBlogs
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-const { getUser, getToken } = require('./test_helper')
+const { getUser } = require('./test_helper')
 
 beforeEach(async () => {
     await User.deleteMany({})
@@ -15,7 +14,7 @@ beforeEach(async () => {
     const user = new User({
         username: 'initial-username',
         name: 'initial-name',
-        passwordHash: 'random-password'
+        passwordHash: 'random-password',
     })
 
     await user.save()
@@ -23,9 +22,7 @@ beforeEach(async () => {
     await Blog.deleteMany({})
 
     const userId = helper.getUserIdFromDb()
-    const blogList = initialBlogs
-        .map(blog => ({ ...blog, userId: userId }))
-        .map(blog => new Blog(blog))
+    const blogList = initialBlogs.map(blog => ({ ...blog, userId: userId })).map(blog => new Blog(blog))
     const blogPromises = blogList.map(blogPromise => blogPromise.save())
     await Promise.all(blogPromises)
 })
@@ -104,7 +101,7 @@ describe('Addition of a new blog', () => {
             author: 'John Travolta',
             url: 'https://www.google.com',
             likes: 27,
-            userId: userId
+            userId: userId,
         }
 
         const token = await helper.getToken()
@@ -131,7 +128,7 @@ describe('Addition of a new blog', () => {
             title: 'This object has no likes :(',
             author: 'The Likeless Monster',
             url: 'https://ihavenolikes.aww',
-            userId: userId
+            userId: userId,
         }
 
         const token = await helper.getToken()
@@ -154,16 +151,12 @@ describe('Addition of a new blog', () => {
         const newBlog = {
             author: 'John Travolta',
             likes: 27,
-            userId: userId
+            userId: userId,
         }
 
         const token = await helper.getToken()
 
-        await api
-            .post('/api/blogs')
-            .send(newBlog)
-            .set('Authorization', `bearer ${token}`)
-            .expect(400)
+        await api.post('/api/blogs').send(newBlog).set('Authorization', `bearer ${token}`).expect(400)
 
         const blogsAtEnd = await helper.blogsInDb()
 
@@ -178,10 +171,7 @@ describe('Deletion of a blog', () => {
 
         const token = await helper.getToken()
 
-        await api
-            .delete(`/api/blogs/${noteToDelete.id}`)
-            .set('Authorization', `bearer ${token}`)
-            .expect(200)
+        await api.delete(`/api/blogs/${noteToDelete.id}`).set('Authorization', `bearer ${token}`).expect(200)
 
         const blogsAtEnd = await helper.blogsInDb()
         const blogTitles = blogsAtEnd.map(blog => blog.title)
@@ -195,9 +185,7 @@ describe('Deletion of a blog', () => {
 
         const token = await helper.getToken()
 
-        await api
-            .delete(`/api/blogs/${nonExistingId}`).expect(404)
-            .set('Authorization', `bearer ${token}`)
+        await api.delete(`/api/blogs/${nonExistingId}`).expect(404).set('Authorization', `bearer ${token}`)
     })
 })
 

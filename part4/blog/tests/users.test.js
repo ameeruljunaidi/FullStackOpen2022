@@ -3,7 +3,6 @@ const app = require('../app')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const Blog = require('../models/Blog')
 const helper = require('./test_helper')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
@@ -18,21 +17,20 @@ beforeEach(async () => {
     const user = new User({
         username: 'initial-username',
         name: 'initial-name',
-        passwordHash: passwordHash
+        passwordHash: passwordHash,
     })
 
     await user.save()
 })
 
 describe('When there is initially one user in db', () => {
-
     test('creation succeeds with a fresh username', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const freshUser = {
             username: 'fresh-username',
             name: 'fresh-name',
-            password: 'this-is-a-fresh-password'
+            password: 'this-is-a-fresh-password',
         }
 
         await api
@@ -53,7 +51,7 @@ describe('When there is initially one user in db', () => {
 
         const noUsername = {
             name: 'some-name',
-            password: 'some-password'
+            password: 'some-password',
         }
 
         const noUsernameResult = await api
@@ -66,7 +64,7 @@ describe('When there is initially one user in db', () => {
 
         const noPassword = {
             username: 'some-username',
-            name: 'some-name'
+            name: 'some-name',
         }
 
         const noPasswordResult = await api
@@ -86,7 +84,7 @@ describe('When there is initially one user in db', () => {
         const invalidUsername = {
             username: 'ab',
             name: 'some-name',
-            password: 'some-password'
+            password: 'some-password',
         }
 
         const invalidUsernameResult = await api
@@ -100,7 +98,7 @@ describe('When there is initially one user in db', () => {
         const invalidPassword = {
             username: 'some-username',
             name: 'some-name',
-            password: 'ab'
+            password: 'ab',
         }
 
         const invalidPasswordResult = await api
@@ -120,7 +118,7 @@ describe('When there is initially one user in db', () => {
         const duplicateUsername = {
             username: 'initial-username',
             name: 'initial-name',
-            password: 'some-password'
+            password: 'some-password',
         }
 
         const result = await api
@@ -147,7 +145,7 @@ describe('When adding blogs with user data', () => {
             author: 'Tom Cruise',
             url: 'https://www.tomcruise.com',
             likes: 234,
-            userId: userId
+            userId: userId,
         }
 
         const token = jwt.sign({ id: userId }, process.env.SECRET)

@@ -18,5 +18,16 @@ const create = async newBlog => {
     return response.data
 }
 
+const remove = async id => {
+    const loggedUser = JSON.parse(window.localStorage.getItem('loggedBlogAppUser'))
+    const bearerToken = `bearer ${loggedUser.token}`
+
+    const config = {
+        headers: { Authorization: bearerToken },
+    }
+
+    await axios.delete(`${baseUrl}/${id}`, config)
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create }
+export default { getAll, create, remove }

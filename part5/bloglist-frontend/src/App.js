@@ -48,7 +48,6 @@ const App = () => {
                 password,
             })
 
-            blogService.setToken(user.token)
             window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
             if (user) {
@@ -74,6 +73,8 @@ const App = () => {
             })
 
             if (newBlogAdded) {
+                const blogs = await blogService.getAll()
+                setBlogs(blogs)
                 showNotification(`Successfully added ${title} by ${author}`, true)
             }
         } catch (exception) {
@@ -87,6 +88,20 @@ const App = () => {
         setUser(null)
         window.localStorage.removeItem('loggedBlogAppUser')
         showNotification('User logged out', true)
+    }
+
+    const handleDeleteBlog = async (event, id) => {
+        event.preventDefault()
+
+        try {
+            console.log('deleting')
+            await blogService.remove(id)
+            const blogs = await blogService.getAll()
+            setBlogs(blogs)
+            showNotification('Deletion successful', true)
+        } catch (error) {
+            showNotification('Deletion failed', false)
+        }
     }
 
     const userStatus = () => (
@@ -119,7 +134,7 @@ const App = () => {
             <h2>blogs</h2>
             {user !== null ? userStatus() : <></>}
             {blogs.map(blog => (
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} handleDeleteBlog={event => handleDeleteBlog(event, blog.id)} />
             ))}
         </div>
     )

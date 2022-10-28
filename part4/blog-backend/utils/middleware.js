@@ -32,8 +32,9 @@ const errorHandler = (error, request, response, next) => {
 
 const tokenExtractor = (request, response, next) => {
     const authorization = request.get('authorization')
-    request.token =
-        authorization && authorization.toLowerCase().startsWith('bearer ') ? authorization.substring(7) : null
+    request.token = authorization && authorization.toLowerCase().startsWith('bearer ')
+        ? authorization.substring(7)
+        : null
     next()
 }
 

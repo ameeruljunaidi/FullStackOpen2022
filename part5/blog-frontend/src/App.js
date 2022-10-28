@@ -105,7 +105,7 @@ const App = () => {
     }
 
     const userStatus = () => (
-        <div className='inline'>
+        <div className="inline">
             {user.name} logged in
             <button onClick={handleLogOut}>log out</button>
         </div>

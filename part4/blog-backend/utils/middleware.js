@@ -40,10 +40,19 @@ const tokenExtractor = (request, response, next) => {
 
 const userExtractor = async (request, response, next) => {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
-    request.user = await User.findById(decodedToken.id)
+
+    const user = await User.findById(decodedToken.id)
+    const tokenFromUser = jwt.sign({ username: user.username, id: user._id }, process.env.SECRET)
+
+    if (!(request.token.split('.')[0] === tokenFromUser.split('.')[0])) {
+        return response.status(401).json({ error: 'no authorization' })
+    }
+
+    request.user = user
     next()
 }
 

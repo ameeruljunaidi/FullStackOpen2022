@@ -24,20 +24,11 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
     const body = request.body
     const user = request.user
 
-    const blog = user
-        ? new Blog({
-            title: body.title,
-            author: body.author,
-            url: body.url,
-            likes: body.likes ? body.likes : 0,
-            user: user
-        })
-        : new Blog({
-            title: body.title,
-            author: body.author,
-            url: body.url,
-            likes: body.likes ? body.likes : 0,
-        })
+    const blog = user ? new Blog({
+        title: body.title, author: body.author, url: body.url, likes: body.likes ? body.likes : 0, user: user
+    }) : new Blog({
+        title: body.title, author: body.author, url: body.url, likes: body.likes ? body.likes : 0,
+    })
 
     const result = await blog.save()
 
@@ -49,7 +40,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
     response.status(201).json(result)
 })
 
-blogsRouter.put('/:id', async (request, response, next) => {
+blogsRouter.put('/:id', userExtractor, async (request, response) => {
     const body = request.body
 
     const blog = {
@@ -60,13 +51,9 @@ blogsRouter.put('/:id', async (request, response, next) => {
         user: body.user
     }
 
-    try {
-        const result = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-        if (result) response.status(200).json(result)
-        else response.status(404).end()
-    } catch (e) {
-        next(e)
-    }
+    const result = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    if (result) response.status(200).json(result)
+    else response.status(404).end()
 })
 
 blogsRouter.delete('/', async (request, response) => {
@@ -75,13 +62,6 @@ blogsRouter.delete('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', userExtractor, async (request, response) => {
-    const user = request.user
-    const tokenFromUser = jwt.sign({ username: user.username, id: user._id }, process.env.SECRET)
-
-    if (!(request.token.split('.')[0] === tokenFromUser.split('.')[0])) {
-        return response.status(401).json({ error: 'no authorization' })
-    }
-
     const result = await Blog.findByIdAndRemove(request.params.id)
     if (!result) response.status(404).end()
     else response.status(200).end()

@@ -19,7 +19,18 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
 
     const handleToggleDetail = () => setShowDetail(prevState => !prevState)
 
-    const handleAddLikes = () => console.log('to do handle add likes')
+    const handleAddLikes = async (event, id) => {
+        event.preventDefault()
+
+        try {
+            const newBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id }
+            await blogService.update(id, newBlog)
+            const blogs = await blogService.getAll()
+            setBlogs(blogs)
+        } catch (error) {
+            showNotification('Liking failed', false)
+        }
+    }
 
     const blogStyle = {
         paddingTop: 5,
@@ -51,7 +62,7 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
             </div>
             <div className="inline">
                 {blog.likes} likes
-                <button onClick={handleAddLikes}>like</button>
+                <button onClick={event => handleAddLikes(event, blog.id)}>like</button>
             </div>
             <div>
                 {blog.author}

@@ -14,7 +14,11 @@ const App = () => {
     const [successState, setSuccessState] = useState(false)
 
     useEffect(() => {
-        blogService.getAll().then(blogs => setBlogs(blogs))
+        (async () => {
+            const blogs = await blogService.getAll()
+            const sortedBLogs = blogs.sort((a, b) => b.likes - a.likes)
+            setBlogs(sortedBLogs)
+        })()
     }, [])
 
     useEffect(() => {

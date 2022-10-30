@@ -26,7 +26,8 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
             const newBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id }
             await blogService.update(id, newBlog)
             const blogs = await blogService.getAll()
-            setBlogs(blogs)
+            const sortedBLogs = blogs.sort((a, b) => b.likes - a.likes)
+            setBlogs(sortedBLogs)
         } catch (error) {
             showNotification('Liking failed', false)
         }

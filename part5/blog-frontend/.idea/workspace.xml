@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.7, added a detailed view for the blog">
-      <change beforePath="$PROJECT_DIR$/../../part2/phonebook/src/services/person.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part2/phonebook/src/services/person.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/utils/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/utils/middleware.js" afterDir="false" />
+    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.8, added liking functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/blogs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/blogs.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +68,7 @@
       <updated>1666905338926</updated>
       <workItem from="1666905344515" duration="1520000" />
       <workItem from="1666943737110" duration="2662000" />
-      <workItem from="1667104622816" duration="15679000" />
+      <workItem from="1667104622816" duration="16473000" />
     </task>
     <task id="LOCAL-00001" summary="Completed 5.6, toggle the create blog form">
       <created>1667106565495</created>
@@ -94,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667161918618</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Completed 5.8, added liking functionality">
+      <created>1667167775881</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1667167775881</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +119,7 @@
     <MESSAGE value="Completed 5.6, toggle the create blog form" />
     <MESSAGE value="Updated 5.6 to use the togglable component" />
     <MESSAGE value="Completed 5.7, added a detailed view for the blog" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.7, added a detailed view for the blog" />
+    <MESSAGE value="Completed 5.8, added liking functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.8, added liking functionality" />
   </component>
 </project>

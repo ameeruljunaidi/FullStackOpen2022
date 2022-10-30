@@ -17,6 +17,7 @@ const App = () => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
+    const [showBlogFrom, setShowBlogForm] = useState(false)
 
     useEffect(() => {
         blogService.getAll().then(blogs => setBlogs(blogs))
@@ -105,11 +106,20 @@ const App = () => {
     }
 
     const userStatus = () => (
-        <div className="inline">
-            {user.name} logged in
-            <button onClick={handleLogOut}>log out</button>
-        </div>
+        <>
+            <div className="inline">
+                {user.name} logged in
+                <button onClick={handleLogOut}>log out</button>
+            </div>
+            <br/><br/>
+        </>
     )
+
+    const handleShowBlogFormUpdate = event => {
+        event.preventDefault()
+
+        setShowBlogForm(prevState => !prevState)
+    }
 
     return (
         <div>
@@ -122,6 +132,8 @@ const App = () => {
                 setPassword={({ target }) => setPassword(target.value)}
                 userLoggedIn={user}
             />
+            <h2>blogs</h2>
+            {user !== null ? userStatus() : <></>}
             <NewBlogForm
                 title={title}
                 setTitle={({ target }) => setTitle(target.value)}
@@ -130,9 +142,9 @@ const App = () => {
                 url={url}
                 setUrl={({ target }) => setUrl(target.value)}
                 handleNewBlog={handleNewBlog}
+                showBlogForm={showBlogFrom}
+                updateShowBlogForm={handleShowBlogFormUpdate}
             />
-            <h2>blogs</h2>
-            {user !== null ? userStatus() : <></>}
             {blogs.map(blog => (
                 <Blog key={blog.id} blog={blog} handleDeleteBlog={event => handleDeleteBlog(event, blog.id)} />
             ))}

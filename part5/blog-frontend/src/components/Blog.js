@@ -4,11 +4,14 @@ import { useState } from 'react'
 const Blog = ({ blog, setBlogs, showNotification }) => {
     const [showDetail, setShowDetail] = useState(false)
 
-    const handleDeleteBlog = async (event, id) => {
+    const handleDeleteBlog = async (event, blog) => {
         event.preventDefault()
 
         try {
-            await blogService.remove(id)
+            if (!window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+                return
+            }
+            await blogService.remove(blog.id)
             const blogs = await blogService.getAll()
             setBlogs(blogs)
             showNotification('Deletion successful', true)
@@ -69,7 +72,7 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
                 {blog.author}
             </div>
             <div>
-                <button onClick={event => handleDeleteBlog(event, blog.id)}>delete blog</button>
+                <button onClick={event => handleDeleteBlog(event, blog)}>delete blog</button>
             </div>
         </div>
     )

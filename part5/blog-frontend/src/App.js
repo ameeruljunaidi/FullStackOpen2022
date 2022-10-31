@@ -80,6 +80,7 @@ const App = () => {
                     blog={blog}
                     setBlogs={setBlogs}
                     showNotification={showNotification}
+                    user={user}
                 />
             ))}
             <Notification message={notificationMessage} success={successState} />

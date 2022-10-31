@@ -1,8 +1,10 @@
 import blogService from '../services/blogs'
-import { useState } from 'react'
+import userService from '../services/user'
+import { useEffect, useState } from 'react'
 
-const Blog = ({ blog, setBlogs, showNotification }) => {
+const Blog = ({ blog, setBlogs, showNotification, user }) => {
     const [showDetail, setShowDetail] = useState(false)
+    const [username, setUsername] = useState(null)
 
     const handleDeleteBlog = async (event, blog) => {
         event.preventDefault()
@@ -61,6 +63,13 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
         </div>
     )
 
+    useEffect(() => {
+        (async () => {
+            const userResponse = await userService.getUser(blog.user.id)
+            setUsername(userResponse.username)
+        })()
+    }, [])
+
     const detailedView = () => (
         <div style={blogStyle}>
             <div className="inline">
@@ -78,7 +87,9 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
                 {blog.author}
             </div>
             <div>
-                <button onClick={event => handleDeleteBlog(event, blog)}>delete blog</button>
+                {(user && (username === user.username))
+                    ? <button onClick={event => handleDeleteBlog(event, blog)}>delete blog</button>
+                    : <></>}
             </div>
         </div>
     )

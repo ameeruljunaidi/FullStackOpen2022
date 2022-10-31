@@ -54,8 +54,15 @@ const Blog = ({ blog, setBlogs, showNotification, user }) => {
         marginBottom: 5
     }
 
+    useEffect(() => {
+        (async () => {
+            const userResponse = await userService.getUser(blog.user.id)
+            setUsername(userResponse.username)
+        })()
+    }, [])
+
     const basicView = () => (
-        <div>
+        <div className='blog'>
             <div className="inline">
                 {blog.title} {blog.author}
                 <button onClick={handleToggleDetail}>view</button>
@@ -64,15 +71,8 @@ const Blog = ({ blog, setBlogs, showNotification, user }) => {
         </div>
     )
 
-    useEffect(() => {
-        (async () => {
-            const userResponse = await userService.getUser(blog.user.id)
-            setUsername(userResponse.username)
-        })()
-    }, [])
-
     const detailedView = () => (
-        <div style={blogStyle}>
+        <div style={blogStyle} className='blog'>
             <div className="inline">
                 {blog.title}
                 <button onClick={handleToggleDetail}>hide</button>
@@ -100,8 +100,8 @@ const Blog = ({ blog, setBlogs, showNotification, user }) => {
 
 Blog.propTypes = {
     blog: PropTypes.shape(blogService.shape).isRequired,
-    setBlogs: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
+    setBlogs: PropTypes.func,
+    showNotification: PropTypes.func,
     user: PropTypes.shape({
         token: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,

@@ -65,24 +65,28 @@ const App = () => {
                 setUser={setUser}
                 showNotification={showNotification}
             />
-            <h2>blogs</h2>
+            {(blogs && user) ? <h2>blogs</h2> : <div>log in to view blogs</div>}
             {user ? showLogin() : <></>}
-            <Togglable buttonLabel="new blog" ref={blogFormRef}>
-                <NewBlogForm
-                    setBlogs={setBlogs}
-                    showNotification={showNotification}
-                    blogFormRef={blogFormRef}
-                />
-            </Togglable>
-            {blogs.map(blog => (
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    setBlogs={setBlogs}
-                    showNotification={showNotification}
-                    user={user}
-                />
-            ))}
+            {user
+                ? <Togglable buttonLabel="new blog" ref={blogFormRef}>
+                    <NewBlogForm
+                        setBlogs={setBlogs}
+                        showNotification={showNotification}
+                        blogFormRef={blogFormRef}
+                    />
+                </Togglable>
+                : <></>}
+            {user
+                ? blogs.map(blog => (
+                    <Blog
+                        key={blog.id}
+                        blog={blog}
+                        setBlogs={setBlogs}
+                        showNotification={showNotification}
+                        user={user}
+                    />
+                ))
+                : <></>}
             <Notification message={notificationMessage} success={successState} />
         </div>
     )

@@ -16,7 +16,13 @@ const Blog = ({ blog, setBlogs, showNotification }) => {
             setBlogs(blogs)
             showNotification('Deletion successful', true)
         } catch (error) {
-            showNotification('Deletion failed', false)
+            switch (error.response.status) {
+            case 404:
+                showNotification('Can\'t find blog', false)
+                break
+            case 400:
+                showNotification('Unathorized user', false)
+            }
         }
     }
 

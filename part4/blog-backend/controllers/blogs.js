@@ -1,6 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const jwt = require('jsonwebtoken')
+const User = require('../models/user')
 const { userExtractor } = require('../utils/middleware')
 
 blogsRouter.get('/', async (request, response) => {
@@ -25,16 +25,23 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
     const user = request.user
 
     const blog = user ? new Blog({
-        title: body.title, author: body.author, url: body.url, likes: body.likes ? body.likes : 0, user: user
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes ? body.likes : 0,
+        user: user
     }) : new Blog({
-        title: body.title, author: body.author, url: body.url, likes: body.likes ? body.likes : 0,
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes ? body.likes : 0,
     })
 
     const result = await blog.save()
 
     if (user) {
-        user.blogs = user.blogs.concat(blog._id)
-        await user.save()
+        const blogs = user.blogs.concat(blog._id)
+        await User.findByIdAndUpdate(user._id, { blogs: blogs })
     }
 
     response.status(201).json(result)
@@ -58,12 +65,30 @@ blogsRouter.put('/:id', userExtractor, async (request, response) => {
 
 blogsRouter.delete('/', async (request, response) => {
     await Blog.deleteMany({})
+    await User.updateMany({}, { blogs: [] })
+
     response.status(200).end()
 })
 
 blogsRouter.delete('/:id', userExtractor, async (request, response) => {
-    const result = await Blog.findByIdAndRemove(request.params.id)
-    if (!result) response.status(404).end()
+    const blog = await Blog.findById(request.params.id)
+    const user = await User.findById(blog.user)
+
+    console.log(`user id from blog: ${blog.user}`)
+    console.log(`user id from request: ${request.user._id}`)
+
+    if (blog.user.toString() !== request.user.id.toString()) {
+        return response.status(400).end()
+    }
+
+    const blogs = user.blogs
+        .map(blog => blog.toString())
+        .filter(blog => blog !== request.params.id)
+
+    const removeBlog = await Blog.findByIdAndRemove(request.params.id)
+    const updateUser = await User.findByIdAndUpdate(blog.user, { blogs: blogs })
+
+    if (!(removeBlog && updateUser)) response.status(404).end()
     else response.status(200).end()
 })
 

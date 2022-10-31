@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.9, added sorting functionality">
+    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.10, delete blog with window pop up">
+      <change afterPath="$PROJECT_DIR$/../../part4/blog-backend/requests/add_user_2.rest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.js" afterDir="false" />
     </list>
@@ -67,7 +69,7 @@
       <updated>1666905338926</updated>
       <workItem from="1666905344515" duration="1520000" />
       <workItem from="1666943737110" duration="2662000" />
-      <workItem from="1667104622816" duration="16744000" />
+      <workItem from="1667104622816" duration="19320000" />
     </task>
     <task id="LOCAL-00001" summary="Completed 5.6, toggle the create blog form">
       <created>1667106565495</created>
@@ -104,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667168593422</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Completed 5.10, delete blog with window pop up">
+      <created>1667168830163</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1667168830163</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +136,7 @@
     <MESSAGE value="Completed 5.7, added a detailed view for the blog" />
     <MESSAGE value="Completed 5.8, added liking functionality" />
     <MESSAGE value="Completed 5.9, added sorting functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.9, added sorting functionality" />
+    <MESSAGE value="Completed 5.10, delete blog with window pop up" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.10, delete blog with window pop up" />
   </component>
 </project>

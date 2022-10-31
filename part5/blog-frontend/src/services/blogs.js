@@ -1,4 +1,7 @@
 import axios from 'axios'
+import userService from '../services/user'
+import PropTypes from 'prop-types'
+
 const baseUrl = '/api/blogs'
 
 const getConfig = () => {
@@ -30,4 +33,12 @@ const remove = async id => {
     await axios.delete(`${baseUrl}/${id}`, getConfig())
 }
 
-export default { getAll, create, remove, update }
+const shape = {
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    user: PropTypes.shape(userService.shape).isRequired
+}
+
+export default { getAll, create, remove, update, shape }

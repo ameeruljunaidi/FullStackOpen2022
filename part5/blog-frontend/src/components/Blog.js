@@ -1,6 +1,7 @@
 import blogService from '../services/blogs'
 import userService from '../services/user'
 import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, setBlogs, showNotification, user }) => {
     const [showDetail, setShowDetail] = useState(false)
@@ -95,6 +96,17 @@ const Blog = ({ blog, setBlogs, showNotification, user }) => {
     )
 
     return showDetail ? detailedView() : basicView()
+}
+
+Blog.propTypes = {
+    blog: PropTypes.shape(blogService.shape).isRequired,
+    setBlogs: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        token: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+    }).isRequired
 }
 
 export default Blog

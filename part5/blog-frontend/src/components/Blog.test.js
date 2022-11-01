@@ -1,9 +1,16 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import mockAxios from 'axios'
+import userService from '../services/user'
+import { act } from 'react-dom/test-utils'
+import { createRoot } from 'react-dom/client'
 
-test('renders blog\'s title and author, but does not render its url or number of likes by default', () => {
+jest.mock('axios')
+
+describe('test blog', () => {
     const blog = {
         title: 'this is a test title',
         author: 'this is a test author',
@@ -22,10 +29,64 @@ test('renders blog\'s title and author, but does not render its url or number of
         name: 'test-name'
     }
 
-    const { container } = render(<Blog blog={blog} user={user}/> )
-    const div = container.querySelector('.blog')
+    const getUserResponse = {
+        data: {
+            username: 'test-username',
+            name: 'test-name',
+            id: 'test-id'
+        }
+    }
 
-    expect(div).toHaveTextContent('this is a test title')
-    expect(div).not.toHaveTextContent('https://test-url.com')
-    expect(div).not.toHaveTextContent('likes')
+    let container = null
+
+    beforeEach(() => {
+        container = document.createElement('div')
+        container.setAttribute('id', 'root')
+        document.body.appendChild(container)
+    })
+
+    afterEach(() => {
+        jest.clearAllMocks()
+        container.remove()
+        container = null
+    })
+
+    mockAxios.get.mockImplementation(url => {
+        switch (url) {
+        case `${userService.baseUrl}/${blog.user.id}`:
+            return Promise.resolve(getUserResponse)
+        default:
+            return Promise.reject(new Error('not found'))
+        }
+    })
+
+    test('renders blog\'s title and author, but does not render its url or number of likes by default', async () => {
+        await act(async () => {
+            const root = createRoot(document.getElementById('root'))
+            root.render(<Blog blog={blog} user={user} />)
+        })
+        const div = container.querySelector('.blog')
+
+        expect(div).toHaveTextContent('this is a test title')
+        expect(div).not.toHaveTextContent('https://test-url.com')
+        expect(div).not.toHaveTextContent('likes')
+        expect(mockAxios.get).toHaveBeenCalledTimes(1)
+    })
+
+    test('clicking view will show the blog\'s url and number of likes', async () => {
+        await act(async () => {
+            const root = createRoot(document.getElementById('root'))
+            root.render(<Blog blog={blog} user={user} />)
+        })
+
+        const userForEvent = userEvent.setup()
+        const button = screen.getByText('view')
+        await userForEvent.click(button)
+
+        const div = container.querySelector('.blog')
+
+        expect(div).toHaveTextContent('https://test-url.com')
+        expect(div).toHaveTextContent('likes')
+        expect(mockAxios.get).toHaveBeenCalledTimes(1)
+    })
 })

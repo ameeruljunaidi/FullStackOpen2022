@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const basedUrl = '/api/users'
+const baseUrl = '/api/users'
 import PropTypes from 'prop-types'
 
 const getUser = async id => {
-    const response = await axios.get(`${basedUrl}/${id}`)
+    const response = await axios.get(`${baseUrl}/${id}`)
     return response.data
 }
 
@@ -14,5 +14,5 @@ const shape = {
     id: PropTypes.string.isRequired
 }
 
-export default { getUser, shape }
+export default { baseUrl, getUser, shape }
 

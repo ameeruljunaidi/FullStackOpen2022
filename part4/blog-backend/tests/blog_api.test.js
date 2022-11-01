@@ -22,7 +22,9 @@ beforeEach(async () => {
     await Blog.deleteMany({})
 
     const userId = helper.getUserIdFromDb()
-    const blogList = initialBlogs.map(blog => ({ ...blog, userId: userId })).map(blog => new Blog(blog))
+    const blogList = initialBlogs
+        .map(blog => ({ ...blog, userId: userId }))
+        .map(blog => new Blog(blog))
     const blogPromises = blogList.map(blogPromise => blogPromise.save())
     await Promise.all(blogPromises)
 })
@@ -167,17 +169,23 @@ describe('Addition of a new blog', () => {
 describe('Deletion of a blog', () => {
     test('succeeds with status code 200 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDb()
-        const noteToDelete = blogsAtStart[0]
+        const user = await getUser()
+        const blogToDelete = blogsAtStart[0]
+        await Blog.findByIdAndUpdate(blogToDelete.id, { user: user.id })
+        await User.findByIdAndUpdate(user.id, { blogs: [blogToDelete.id] })
 
         const token = await helper.getToken()
 
-        await api.delete(`/api/blogs/${noteToDelete.id}`).set('Authorization', `bearer ${token}`).expect(200)
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .set('Authorization', `bearer ${token}`)
+            .expect(200)
 
         const blogsAtEnd = await helper.blogsInDb()
         const blogTitles = blogsAtEnd.map(blog => blog.title)
 
         expect(blogsAtEnd).toHaveLength(initialBlogs.length - 1)
-        expect(blogTitles).not.toContain(noteToDelete.title)
+        expect(blogTitles).not.toContain(blogToDelete.title)
     })
 
     test('fails with status code 404 if note does not exist', async () => {
@@ -185,7 +193,10 @@ describe('Deletion of a blog', () => {
 
         const token = await helper.getToken()
 
-        await api.delete(`/api/blogs/${nonExistingId}`).expect(404).set('Authorization', `bearer ${token}`)
+        await api
+            .delete(`/api/blogs/${nonExistingId}`)
+            .set('Authorization', `bearer ${token}`)
+            .expect(404)
     })
 })
 
@@ -193,6 +204,8 @@ describe('Updating of a blog', () => {
     test('succeeds with status code 200 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDb()
         const blogToUpdate = blogsAtStart[0]
+
+        const token = await helper.getToken()
 
         const updatedBlog = {
             title: blogToUpdate.title,
@@ -203,6 +216,7 @@ describe('Updating of a blog', () => {
 
         await api
             .put(`/api/blogs/${blogToUpdate.id}`)
+            .set('Authorization', `bearer ${token}`)
             .send(updatedBlog)
             .expect(200)
             .expect('Content-Type', /application\/json/)
@@ -219,7 +233,12 @@ describe('Updating of a blog', () => {
         const blogsAtStart = await helper.blogsInDb()
         const blogToUpdate = blogsAtStart[0]
 
-        await api.put(`/api/blogs/${nonExistingId}`).send(blogToUpdate).expect(400)
+        const token = await helper.getToken()
+
+        await api
+            .put(`/api/blogs/${nonExistingId}`)
+            .set('Authorization', `bearer ${token}`)
+            .send(blogToUpdate).expect(400)
     })
 })
 

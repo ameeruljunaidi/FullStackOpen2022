@@ -16,6 +16,7 @@ const Blog = ({ blog, setBlogs, showNotification, user }) => {
             }
             await blogService.remove(blog.id)
             const blogs = await blogService.getAll()
+
             setBlogs(blogs)
             showNotification('Deletion successful', true)
         } catch (error) {

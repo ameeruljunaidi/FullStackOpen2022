@@ -60,8 +60,6 @@ const LoginForm = ({ userLoggedIn, showNotification, setUser }) => {
             </>
         )
     }
-
-    return
 }
 
 export default LoginForm

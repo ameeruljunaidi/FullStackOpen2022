@@ -47,4 +47,4 @@ const shape = {
     user: PropTypes.shape(userService.shape).isRequired
 }
 
-export default { getAll, create, remove, update, shape }
+export default { baseUrl, getAll, create, remove, update, shape }

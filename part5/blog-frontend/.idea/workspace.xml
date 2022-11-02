@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.13, adding test to the blog component">
-      <change afterPath="$PROJECT_DIR$/src/utils/logger.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/tests/blog_api.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/tests/blog_api.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/bloglist-frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bloglist-frontend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.14, testing when view is clicked">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/blogs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/blogs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,28 +29,36 @@
     <option name="showLibraryContents" value="true" />
     <option name="sortByType" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/ajjunaidi/Dev/FullStackOpen2022/part5/blog-frontend/src/utils",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/ajjunaidi/Dev/FullStackOpen2022/part5/blog-frontend/node_modules/react-scripts",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ajjunaidi/Dev/FullStackOpen2022/part5/blog-frontend/src/utils&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;/Users/ajjunaidi/Dev/FullStackOpen2022/part5/blog-frontend/node_modules/react-scripts&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/utils" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.test">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="npm test" />
+    </option>
+  </component>
+  <component name="RunManager" selected="HTTP Request.All in add_user_2">
+    <configuration name="All in add_user_2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/../../part4/blog-backend/requests/add_user_2.rest">
+      <method v="2" />
+    </configuration>
     <configuration name="test blog" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -73,39 +72,21 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="test blog.clicking view will show the blog's url and number of likes" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/src/components/Blog.test.js" />
-      <test-names>
-        <test-name value="test blog" />
-        <test-name value="clicking view will show the blog's url and number of likes" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="test blog.renders blog's title and author, but does not render its url or number of likes by default" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/src/components/Blog.test.js" />
-      <test-names>
-        <test-name value="test blog" />
-        <test-name value="renders blog's title and author, but does not render its url or number of likes by default" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="test (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/../../part4/blog-backend/package.json" />
       <command value="run" />
       <scripts>
-        <script value="test" />
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -123,11 +104,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.All in add_user_2" />
         <item itemvalue="npm.test" />
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.dev" />
         <item itemvalue="Jest.test blog" />
-        <item itemvalue="Jest.test blog.renders blog's title and author, but does not render its url or number of likes by default" />
-        <item itemvalue="Jest.test blog.clicking view will show the blog's url and number of likes" />
-        <item itemvalue="npm.test (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -143,7 +124,9 @@
       <workItem from="1666943737110" duration="2662000" />
       <workItem from="1667104622816" duration="41535000" />
       <workItem from="1667251853647" duration="21000" />
-      <workItem from="1667251886828" duration="9838000" />
+      <workItem from="1667251886828" duration="13346000" />
+      <workItem from="1667281250529" duration="4798000" />
+      <workItem from="1667359629106" duration="77000" />
     </task>
     <task id="LOCAL-00001" summary="Completed 5.6, toggle the create blog form">
       <created>1667106565495</created>
@@ -215,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667240094083</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Completed 5.14, testing when view is clicked">
+      <created>1667273068908</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1667273068908</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,18 +233,7 @@
     <MESSAGE value="Updated 5.10, only show delete if user is authorized" />
     <MESSAGE value="Completed 5.11 &amp; 5.12" />
     <MESSAGE value="Completed 5.13, adding test to the blog component" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.13, adding test to the blog component" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/../../part4/blog-backend/controllers/blogs.js</url>
-          <line>73</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Completed 5.14, testing when view is clicked" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.14, testing when view is clicked" />
   </component>
 </project>

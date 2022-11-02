@@ -56,6 +56,8 @@ const Blog = ({ blog, setBlogs, showNotification, user }) => {
     }
 
     useEffect(() => {
+        // I know this is a very bad way to use useEffect but we will live with it for now
+
         (async () => {
             const userResponse = await userService.getUser(blog.user.id)
             setUsername(userResponse.username)

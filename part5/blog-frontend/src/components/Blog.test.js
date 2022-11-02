@@ -1,16 +1,17 @@
 import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { act } from 'react-dom/test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 import mockAxios from 'axios'
 import userService from '../services/user'
-import { act } from 'react-dom/test-utils'
-import { createRoot } from 'react-dom/client'
+import blogService from '../services/blogs'
 
 jest.mock('axios')
 
-describe('test blog', () => {
+describe('Testing blog component', () => {
     const blog = {
         title: 'this is a test title',
         author: 'this is a test author',
@@ -21,6 +22,10 @@ describe('test blog', () => {
             name: 'test-name',
             id: 'test-id'
         }
+    }
+
+    const getAllBlogResponse = {
+        data: [ blog ]
     }
 
     const user = {
@@ -55,6 +60,10 @@ describe('test blog', () => {
         switch (url) {
         case `${userService.baseUrl}/${blog.user.id}`:
             return Promise.resolve(getUserResponse)
+        case `${blogService.baseUrl}`:
+            return Promise.resolve(getAllBlogResponse)
+        case `${blogService.baseUrl}/${blog.id}`:
+            return Promise.resolve({ data: blog })
         default:
             return Promise.reject(new Error('not found'))
         }
@@ -65,6 +74,7 @@ describe('test blog', () => {
             const root = createRoot(document.getElementById('root'))
             root.render(<Blog blog={blog} user={user} />)
         })
+
         const div = container.querySelector('.blog')
 
         expect(div).toHaveTextContent('this is a test title')

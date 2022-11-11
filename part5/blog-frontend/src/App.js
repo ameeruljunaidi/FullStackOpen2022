@@ -58,6 +58,20 @@ const App = () => {
 
     const blogFormRef = useRef()
 
+    const handleAddLikes = async (event, blog) => {
+        event.preventDefault()
+
+        try {
+            const newBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id }
+            await blogService.update(blog.id, newBlog)
+            const blogs = await blogService.getAll()
+            const sortedBLogs = blogs.sort((a, b) => b.likes - a.likes)
+            setBlogs(sortedBLogs)
+        } catch (error) {
+            showNotification('Liking failed', false)
+        }
+    }
+
     return (
         <div>
             <LoginForm
@@ -84,6 +98,7 @@ const App = () => {
                         setBlogs={setBlogs}
                         showNotification={showNotification}
                         user={user}
+                        handleAddLikes={handleAddLikes}
                     />
                 )
                 : <></>}

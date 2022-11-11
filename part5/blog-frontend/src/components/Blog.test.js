@@ -25,7 +25,7 @@ describe('Testing blog component', () => {
     }
 
     const getAllBlogResponse = {
-        data: [ blog ]
+        data: [blog]
     }
 
     const user = {
@@ -44,10 +44,17 @@ describe('Testing blog component', () => {
 
     let container = null
 
-    beforeEach(() => {
+    const addLikesMockHandler = jest.fn()
+
+    beforeEach(async () => {
         container = document.createElement('div')
         container.setAttribute('id', 'root')
         document.body.appendChild(container)
+
+        await act(async () => {
+            const root = createRoot(document.getElementById('root'))
+            root.render(<Blog blog={blog} user={user} handleAddLikes={addLikesMockHandler} />)
+        })
     })
 
     afterEach(() => {
@@ -70,11 +77,6 @@ describe('Testing blog component', () => {
     })
 
     test('renders blog\'s title and author, but does not render its url or number of likes by default', async () => {
-        await act(async () => {
-            const root = createRoot(document.getElementById('root'))
-            root.render(<Blog blog={blog} user={user} />)
-        })
-
         const div = container.querySelector('.blog')
 
         expect(div).toHaveTextContent('this is a test title')
@@ -84,11 +86,6 @@ describe('Testing blog component', () => {
     })
 
     test('clicking view will show the blog\'s url and number of likes', async () => {
-        await act(async () => {
-            const root = createRoot(document.getElementById('root'))
-            root.render(<Blog blog={blog} user={user} />)
-        })
-
         const userForEvent = userEvent.setup()
         const button = screen.getByText('view')
         await userForEvent.click(button)
@@ -98,5 +95,18 @@ describe('Testing blog component', () => {
         expect(div).toHaveTextContent('https://test-url.com')
         expect(div).toHaveTextContent('likes')
         expect(mockAxios.get).toHaveBeenCalledTimes(1)
+    })
+
+    test('when the like button is pressed, the event handler the component get as prop will be called twice', async () => {
+        const userForEvent = userEvent.setup()
+
+        const viewButton = screen.getByText('view')
+        await userForEvent.click(viewButton)
+
+        const likeButton = screen.getByText('like')
+        await userForEvent.click(likeButton)
+        await userForEvent.click(likeButton)
+
+        expect(addLikesMockHandler.mock.calls).toHaveLength(2)
     })
 })

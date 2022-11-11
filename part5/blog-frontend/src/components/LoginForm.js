@@ -38,7 +38,7 @@ const LoginForm = ({ userLoggedIn, showNotification, setUser }) => {
                 <h2>log in to application</h2>
                 <form onSubmit={handleLogin}>
                     <div>
-                        username
+            username
                         <input
                             type="text"
                             value={username}
@@ -47,7 +47,7 @@ const LoginForm = ({ userLoggedIn, showNotification, setUser }) => {
                         />
                     </div>
                     <div>
-                        password
+            password
                         <input
                             type="text"
                             value={password}

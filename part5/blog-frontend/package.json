@@ -42,7 +42,8 @@
         "eslint": "^8.26.0",
         "eslint-plugin-react": "^7.29.4",
         "jest-watch-typeahead": "^0.6.5",
-        "msw": "^0.47.4"
+        "msw": "^0.47.4",
+        "prettier": "2.7.1"
     },
     "jest": {
         "resetMocks": false

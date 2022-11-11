@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.14, testing when view is clicked">
+    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Updated Blog and Blog test">
+      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/controllers/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/controllers/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/blogs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/blogs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/logger.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/logger.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,11 +59,11 @@
       <command value="npm test" />
     </option>
   </component>
-  <component name="RunManager" selected="HTTP Request.All in add_user_2">
+  <component name="RunManager" selected="Jest.Testing blog component">
     <configuration name="All in add_user_2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/../../part4/blog-backend/requests/add_user_2.rest">
       <method v="2" />
     </configuration>
-    <configuration name="test blog" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="Testing blog component" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
@@ -68,7 +72,7 @@
       <scope-kind value="SUITE" />
       <test-file value="$PROJECT_DIR$/src/components/Blog.test.js" />
       <test-names>
-        <test-name value="test blog" />
+        <test-name value="Testing blog component" />
       </test-names>
       <method v="2" />
     </configuration>
@@ -104,11 +108,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.All in add_user_2" />
-        <item itemvalue="npm.test" />
+        <item itemvalue="Jest.Testing blog component" />
         <item itemvalue="npm.start" />
         <item itemvalue="npm.dev" />
-        <item itemvalue="Jest.test blog" />
+        <item itemvalue="HTTP Request.All in add_user_2" />
+        <item itemvalue="npm.test" />
       </list>
     </recent_temporary>
   </component>
@@ -126,7 +130,8 @@
       <workItem from="1667251853647" duration="21000" />
       <workItem from="1667251886828" duration="13346000" />
       <workItem from="1667281250529" duration="4798000" />
-      <workItem from="1667359629106" duration="77000" />
+      <workItem from="1667359629106" duration="137000" />
+      <workItem from="1668198920517" duration="2351000" />
     </task>
     <task id="LOCAL-00001" summary="Completed 5.6, toggle the create blog form">
       <created>1667106565495</created>
@@ -205,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667273068908</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Updated Blog and Blog test">
+      <created>1667359739038</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1667359739038</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,6 +246,7 @@
     <MESSAGE value="Completed 5.11 &amp; 5.12" />
     <MESSAGE value="Completed 5.13, adding test to the blog component" />
     <MESSAGE value="Completed 5.14, testing when view is clicked" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.14, testing when view is clicked" />
+    <MESSAGE value="Updated Blog and Blog test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Blog and Blog test" />
   </component>
 </project>

@@ -8,6 +8,8 @@ loginRouter.get('/', (_, response) => response.send('this is the login router'))
 loginRouter.post('/', async (request, response) => {
     const { username, password } = request.body
 
+    console.log(`username: ${username}, password: ${password}`)
+
     const user = await User.findOne({ username })
     const passwordCorrect = user === null
         ? false
@@ -15,7 +17,7 @@ loginRouter.post('/', async (request, response) => {
 
     if (!(user && passwordCorrect)) {
         return response.status(401).json({
-            error: 'invalid username of password'
+            error: 'invalid username or password'
         })
     }
 

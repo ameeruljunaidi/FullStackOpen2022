@@ -1,39 +1,13 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
-const NewBlogForm = ({ setBlogs, showNotification, blogFormRef }) => {
+const NewBlogForm = ({ blogFormRef, handleNewBlog }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
-    const handleNewBlog = async event => {
-        event.preventDefault()
-
-        try {
-            const newBlogAdded = await blogService.create({
-                title: title, author: author, url: url,
-            })
-
-            if (newBlogAdded) {
-                setTitle('')
-                setAuthor('')
-                setUrl('')
-
-                blogFormRef.current.toggleVisibility()
-
-                const blogs = await blogService.getAll()
-                setBlogs(blogs)
-
-                showNotification(`Successfully added ${title} by ${author}`, true)
-            }
-        } catch (exception) {
-            showNotification('Not authenticated', false)
-        }
-    }
-
     return (<>
         <h2>create new</h2>
-        <form onSubmit={handleNewBlog}>
+        <form onSubmit={event => handleNewBlog(event, blogFormRef, title, author, url, setTitle, setAuthor, setUrl)}>
             <div>
                 title:
                 <input
@@ -41,6 +15,7 @@ const NewBlogForm = ({ setBlogs, showNotification, blogFormRef }) => {
                     value={title}
                     name="Title"
                     onChange={({ target }) => setTitle(target.value)}
+                    id='title-input'
                 />
             </div>
             <div>
@@ -50,6 +25,7 @@ const NewBlogForm = ({ setBlogs, showNotification, blogFormRef }) => {
                     value={author}
                     name="Author"
                     onChange={({ target }) => setAuthor(target.value)}
+                    id='author-input'
                 />
             </div>
             <div>
@@ -59,11 +35,13 @@ const NewBlogForm = ({ setBlogs, showNotification, blogFormRef }) => {
                     value={url}
                     name="URL"
                     onChange={({ target }) => setUrl(target.value)}
+                    id='url-input'
                 />
             </div>
             <button type="submit">create</button>
         </form>
     </>)
 }
+
 
 export default NewBlogForm

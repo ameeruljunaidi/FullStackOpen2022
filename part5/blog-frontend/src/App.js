@@ -72,6 +72,32 @@ const App = () => {
         }
     }
 
+    const handleNewBlog = async (event, blogFormRef, title, author, url, setTitle, setAuthor, setUrl) => {
+        event.preventDefault()
+
+        try {
+            const newBlogAdded = await blogService.create({
+                title: title, author: author, url: url,
+            })
+
+            if (newBlogAdded) {
+                setTitle('')
+                setAuthor('')
+                setUrl('')
+
+                blogFormRef.current.toggleVisibility()
+
+                const blogs = await blogService.getAll()
+                setBlogs(blogs)
+
+                showNotification(`Successfully added ${title} by ${author}`, true)
+            }
+        } catch (exception) {
+            showNotification('Not authenticated', false)
+        }
+    }
+
+
     return (
         <div>
             <LoginForm
@@ -84,9 +110,8 @@ const App = () => {
             {user
                 ? <Togglable buttonLabel="new blog" ref={blogFormRef}>
                     <NewBlogForm
-                        setBlogs={setBlogs}
-                        showNotification={showNotification}
                         blogFormRef={blogFormRef}
+                        handleNewBlog={handleNewBlog}
                     />
                 </Togglable>
                 : <></>}

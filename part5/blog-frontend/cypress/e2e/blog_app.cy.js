@@ -56,35 +56,61 @@ describe('Blog app', () => {
             cy.contains('view')
         })
 
-        it('Users can like a blog', () => {
-            cy.addBlog(blog)
+        describe('When there is a blog', () => {
+            beforeEach(() => {
+                cy.addBlog(blog)
+                cy.contains('view').click()
+            })
+            it('Users can like a blog', () => {
+                cy.contains('like').click()
+                cy.contains('1 likes')
+            })
 
-            cy.contains('view').click()
-            cy.contains('like').click()
-            cy.contains('1 likes')
+            it('User can delete a blog', () => {
+                cy.contains('delete blog').click()
+                cy.get('.success')
+                    .should('contain', 'Deletion successful')
+                    .and('have.css', 'color', 'rgb(0, 128, 0)')
+            })
+
+            it('Another user cannot delete a blog', () => {
+                cy.contains('log out').click()
+
+                cy.addUser({ name: 'test-name-2', username: 'test-username-2', password: 'test-password-2' })
+                cy.get('#username-input').type('test-username-2')
+                cy.get('#password-input').type('test-password-2')
+                cy.get('#login-button').click()
+
+                cy.get('#view-toggle-button').click()
+                cy.contains('delete blog').should('not.exist')
+            })
         })
 
-        it('User can delete a blog', () => {
-            cy.addBlog(blog)
-            cy.contains('view').click()
-            cy.contains('delete blog').click()
-            cy.get('.success')
-                .should('contain', 'Deletion successful')
-                .and('have.css', 'color', 'rgb(0, 128, 0)')
-        })
+        describe('When there are blogs', () => {
+            beforeEach(() => {
+                const blogs = [
+                    blog,
+                    {
+                        title: 'test-title-2',
+                        author: 'test-author-2',
+                        url: 'test-url-2'
+                    }
+                ]
 
-        it('Another user cannot delete a blog', () => {
-            cy.addBlog(blog)
-            cy.contains('view').click()
-            cy.contains('log out').click()
+                blogs.forEach(blog => {
+                    cy.addBlog(blog)
+                    cy.get('#view-toggle-button').click()
+                })
+            })
 
-            cy.addUser({ name: 'test-name-2', username: 'test-username-2', password: 'test-password-2' })
-            cy.get('#username-input').type('test-username-2')
-            cy.get('#password-input').type('test-password-2')
-            cy.get('#login-button').click()
+            it.only('Blogs would be sorted based on the number of likes', () => {
+                cy.contains('test-title-2').parent().find('#like-button').as('likeButton')
+                cy.get('@likeButton').click()
+                cy.wait(1000)
 
-            cy.get('#view-toggle-button').click()
-            cy.contains('delete blog').should('not.exist')
+                cy.get('.blog').eq(0).should('contain', 'test-title-2')
+                cy.get('.blog').eq(1).should('contain', 'test-title')
+            })
         })
     })
 })

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.20, tested liking a blog">
+    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.21, the correct user can delete a blog">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cypress/e2e/blog_app.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/e2e/blog_app.cy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blog.js" afterDir="false" />
@@ -112,8 +112,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start:test" />
         <item itemvalue="Jest.users.test.js" />
+        <item itemvalue="npm.start:test" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.cypress:open" />
         <item itemvalue="npm.test" />
@@ -135,7 +135,7 @@
       <workItem from="1667251886828" duration="13346000" />
       <workItem from="1667281250529" duration="4798000" />
       <workItem from="1667359629106" duration="137000" />
-      <workItem from="1668198920517" duration="19446000" />
+      <workItem from="1668198920517" duration="20903000" />
     </task>
     <task id="LOCAL-00001" summary="Completed 5.6, toggle the create blog form">
       <created>1667106565495</created>
@@ -263,7 +263,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668305696297</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Completed 5.21, the correct user can delete a blog">
+      <created>1668306315721</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1668306315721</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,6 +306,7 @@
     <MESSAGE value="Completed 5.18, tested login functionality" />
     <MESSAGE value="Completed 5.19, logged user can create a new blog" />
     <MESSAGE value="Completed 5.20, tested liking a blog" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.20, tested liking a blog" />
+    <MESSAGE value="Completed 5.21, the correct user can delete a blog" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.21, the correct user can delete a blog" />
   </component>
 </project>

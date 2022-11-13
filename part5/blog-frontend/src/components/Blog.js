@@ -71,7 +71,7 @@ const Blog = ({ blog, setBlogs, showNotification, user, handleAddLikes }) => {
             </div>
             <div className="inline">
                 {blog.likes} likes
-                <button onClick={event => handleAddLikes(event, blog)}>like</button>
+                <button id='like-button' onClick={event => handleAddLikes(event, blog)}>like</button>
             </div>
             <div>
                 {blog.author}

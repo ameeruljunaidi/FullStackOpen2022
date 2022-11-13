@@ -54,7 +54,7 @@ const Blog = ({ blog, setBlogs, showNotification, user, handleAddLikes }) => {
         <div className='blog'>
             <div className="inline">
                 {blog.title} {blog.author}
-                <button onClick={handleToggleDetail}>view</button>
+                <button id='view-toggle-button' onClick={handleToggleDetail}>view</button>
             </div>
             <br></br>
         </div>

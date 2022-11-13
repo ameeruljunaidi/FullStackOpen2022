@@ -45,13 +45,7 @@ describe('Blog app', () => {
         }
 
         it('A blog can be created', () => {
-            cy.get('#new-blog-button').click()
-
-            cy.get('#title-input').type(blog.title)
-            cy.get('#author-input').type(blog.author)
-            cy.get('#url-input').type(blog.url)
-
-            cy.get('#create-blog-button').click()
+            cy.addBlog(blog)
 
             cy.get('.success')
                 .should('contain', `Successfully added ${blog.title} by ${blog.author}`)
@@ -63,17 +57,34 @@ describe('Blog app', () => {
         })
 
         it('Users can like a blog', () => {
-            cy.get('#new-blog-button').click()
-
-            cy.get('#title-input').type(blog.title)
-            cy.get('#author-input').type(blog.author)
-            cy.get('#url-input').type(blog.url)
-
-            cy.get('#create-blog-button').click()
+            cy.addBlog(blog)
 
             cy.contains('view').click()
             cy.contains('like').click()
             cy.contains('1 likes')
+        })
+
+        it('User can delete a blog', () => {
+            cy.addBlog(blog)
+            cy.contains('view').click()
+            cy.contains('delete blog').click()
+            cy.get('.success')
+                .should('contain', 'Deletion successful')
+                .and('have.css', 'color', 'rgb(0, 128, 0)')
+        })
+
+        it('Another user cannot delete a blog', () => {
+            cy.addBlog(blog)
+            cy.contains('view').click()
+            cy.contains('log out').click()
+
+            cy.addUser({ name: 'test-name-2', username: 'test-username-2', password: 'test-password-2' })
+            cy.get('#username-input').type('test-username-2')
+            cy.get('#password-input').type('test-password-2')
+            cy.get('#login-button').click()
+
+            cy.get('#view-toggle-button').click()
+            cy.contains('delete blog').should('not.exist')
         })
     })
 })

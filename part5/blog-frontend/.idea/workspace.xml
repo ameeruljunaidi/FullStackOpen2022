@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.15, test for the like handler">
-      <change afterPath="$PROJECT_DIR$/src/components/NewBlogForm.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+    <list default="true" id="6eedf2ea-9747-42ac-b572-c75ee8d0b32b" name="Changes" comment="Completed 5.16, testing the handle that posts new blog">
+      <change afterPath="$PROJECT_DIR$/../../part4/blog-backend/controllers/testing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cypress/e2e/blog_app.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../part4/blog-backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../part4/blog-backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewBlogForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewBlogForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LoginForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginForm.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +45,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.jest.jest_package": "/Users/ajjunaidi/Dev/FullStackOpen2022/part5/blog-frontend/node_modules/react-scripts",
+    "nodejs.jest.jest_package": "/Users/ajjunaidi/Dev/FullStackOpen2022/part4/blog-backend/node_modules/jest",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "settings.javascript.linters.eslint",
     "vue.rearranger.settings.migration": "true"
@@ -52,37 +55,34 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/utils" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cypress/e2e" />
+    </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="npm test" />
     </option>
   </component>
-  <component name="RunManager" selected="npm.test">
-    <configuration name="Testing blog component" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Jest.users.test.js">
+    <configuration name="users.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$" />
+      <jest-package value="$PROJECT_DIR$/../../part4/blog-backend/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$/../../part4/blog-backend" />
       <envs />
-      <scope-kind value="SUITE" />
-      <test-file value="$PROJECT_DIR$/src/components/Blog.test.js" />
-      <test-names>
-        <test-name value="Testing blog component" />
-      </test-names>
+      <scope-kind value="TEST_FILE" />
+      <test-file value="$PROJECT_DIR$/../../part4/blog-backend/tests/users.test.js" />
       <method v="2" />
     </configuration>
-    <configuration name="Testing new blog form" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="cypress:open" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="cypress:open" />
+      </scripts>
       <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$" />
       <envs />
-      <scope-kind value="SUITE" />
-      <test-file value="$PROJECT_DIR$/src/components/NewBlogForm.test.js" />
-      <test-names>
-        <test-name value="Testing new blog form" />
-      </test-names>
       <method v="2" />
     </configuration>
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
@@ -95,11 +95,11 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
+    <configuration name="start:test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/../../part4/blog-backend/package.json" />
       <command value="run" />
       <scripts>
-        <script value="start" />
+        <script value="start:test" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -117,11 +117,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.test" />
-        <item itemvalue="Jest.Testing new blog form" />
-        <item itemvalue="Jest.Testing blog component" />
-        <item itemvalue="npm.start" />
+        <item itemvalue="npm.start:test" />
+        <item itemvalue="Jest.users.test.js" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.cypress:open" />
+        <item itemvalue="npm.test" />
       </list>
     </recent_temporary>
   </component>
@@ -140,7 +140,7 @@
       <workItem from="1667251886828" duration="13346000" />
       <workItem from="1667281250529" duration="4798000" />
       <workItem from="1667359629106" duration="137000" />
-      <workItem from="1668198920517" duration="9847000" />
+      <workItem from="1668198920517" duration="15134000" />
     </task>
     <task id="LOCAL-00001" summary="Completed 5.6, toggle the create blog form">
       <created>1667106565495</created>
@@ -233,7 +233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668201548102</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Completed 5.16, testing the handle that posts new blog">
+      <created>1668286256087</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1668286256087</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,6 +271,7 @@
     <MESSAGE value="Completed 5.14, testing when view is clicked" />
     <MESSAGE value="Updated Blog and Blog test" />
     <MESSAGE value="Completed 5.15, test for the like handler" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.15, test for the like handler" />
+    <MESSAGE value="Completed 5.16, testing the handle that posts new blog" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed 5.16, testing the handle that posts new blog" />
   </component>
 </project>

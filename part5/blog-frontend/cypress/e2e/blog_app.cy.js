@@ -33,7 +33,7 @@ describe('Blog app', () => {
         })
     })
 
-    describe('when logged in', () => {
+    describe('When logged in', () => {
         beforeEach(() => {
             cy.login({ username: 'test-username', password: 'test-password' })
         })
@@ -60,6 +60,20 @@ describe('Blog app', () => {
             cy.contains(blog.title)
             cy.contains(blog.author)
             cy.contains('view')
+        })
+
+        it('Users can like a blog', () => {
+            cy.get('#new-blog-button').click()
+
+            cy.get('#title-input').type(blog.title)
+            cy.get('#author-input').type(blog.author)
+            cy.get('#url-input').type(blog.url)
+
+            cy.get('#create-blog-button').click()
+
+            cy.contains('view').click()
+            cy.contains('like').click()
+            cy.contains('1 likes')
         })
     })
 })

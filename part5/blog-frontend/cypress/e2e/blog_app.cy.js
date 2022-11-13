@@ -33,11 +33,33 @@ describe('Blog app', () => {
         })
     })
 
-    // describe('when logged in', () => {
-    //     beforeEach(() => {
-    //         cy.get('#username-input').type('initial-username')
-    //         cy.get('#password-input').type('this-is-a-password')
-    //         cy.get('#login-button').click()
-    //     })
-    // })
+    describe('when logged in', () => {
+        beforeEach(() => {
+            cy.login({ username: 'test-username', password: 'test-password' })
+        })
+
+        const blog = {
+            title: 'test-title',
+            author: 'test-author',
+            url: 'test-url'
+        }
+
+        it('A blog can be created', () => {
+            cy.get('#new-blog-button').click()
+
+            cy.get('#title-input').type(blog.title)
+            cy.get('#author-input').type(blog.author)
+            cy.get('#url-input').type(blog.url)
+
+            cy.get('#create-blog-button').click()
+
+            cy.get('.success')
+                .should('contain', `Successfully added ${blog.title} by ${blog.author}`)
+                .and('have.css', 'color', 'rgb(0, 128, 0)')
+
+            cy.contains(blog.title)
+            cy.contains(blog.author)
+            cy.contains('view')
+        })
+    })
 })

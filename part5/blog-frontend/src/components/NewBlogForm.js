@@ -38,7 +38,7 @@ const NewBlogForm = ({ blogFormRef, handleNewBlog }) => {
                     id='url-input'
                 />
             </div>
-            <button type="submit">create</button>
+            <button id='create-blog-button' type="submit">create</button>
         </form>
     </>)
 }

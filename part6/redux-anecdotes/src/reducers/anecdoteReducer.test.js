@@ -1,5 +1,5 @@
 import deepFree from 'deep-freeze'
-import anecdoteReducer from './anecdoteReducer'
+import anecdoteReducer  from './anecdoteReducer'
 import { initialState } from '../utils/initialData'
 
 describe('anecdote reducer', () => {
@@ -16,8 +16,8 @@ describe('anecdote reducer', () => {
         const firstAnecdoteId = initialState[0].id
 
         const action = {
-            type: 'INCREASE_VOTE',
-            id: firstAnecdoteId
+            type: 'anecdotes/voteAnecdote',
+            payload: firstAnecdoteId
         }
 
         const state = initialState
@@ -30,8 +30,8 @@ describe('anecdote reducer', () => {
         const newAnecdote = 'this anecdote will blow your mind hole'
 
         const action = {
-            type: 'ADD_ANECDOTE',
-            anecdote: newAnecdote
+            type: 'anecdotes/addAnecdote',
+            payload: newAnecdote
         }
 
         const state = initialState
@@ -50,8 +50,8 @@ describe('anecdote reducer', () => {
         const secondAnecdoteId = initialState[1].id
 
         const action = {
-            type: 'INCREASE_VOTE',
-            id: secondAnecdoteId
+            type: 'anecdotes/voteAnecdote',
+            payload: secondAnecdoteId
         }
 
         const state = initialState

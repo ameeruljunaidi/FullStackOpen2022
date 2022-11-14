@@ -36,7 +36,7 @@ const voteAnecdoteAction = (state, action) => {
 // const addAnecdote = (anecdote) => ({ type: 'ADD_ANECDOTE', anecdote: anecdote })
 
 const addAnecdoteAction = (state, action) => {
-    const anecdote = asObject(action.payload)
+    const anecdote = action.payload
     state.push(anecdote)
 }
 

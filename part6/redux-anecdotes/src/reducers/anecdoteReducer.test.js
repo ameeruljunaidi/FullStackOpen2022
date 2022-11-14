@@ -1,6 +1,6 @@
 import deepFree from 'deep-freeze'
 import anecdoteReducer from './anecdoteReducer'
-import { initialState, asObject } from '../utils/initialData'
+import { initialState } from '../utils/initialData'
 
 describe('anecdote reducer', () => {
     test('return initial state when called with undefined state', () => {
@@ -44,5 +44,19 @@ describe('anecdote reducer', () => {
                 })
             ])
         ) // source: https://medium.com/@andrei.pfeiffer/jest-matching-objects-in-array-50fe2f4d6b98
+    })
+
+    test('anecdotes will be sorted by the number of votes', () => {
+        const secondAnecdoteId = initialState[1].id
+
+        const action = {
+            type: 'INCREASE_VOTE',
+            id: secondAnecdoteId
+        }
+
+        const state = initialState
+        deepFree(state)
+        const newState = anecdoteReducer(state, action)
+        expect(newState[0].id).toEqual(secondAnecdoteId)
     })
 })

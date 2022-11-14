@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import NewAnecdoteForm from './components/NewAnecdoteForm'
+import AnecdoteForm from './components/NewAnecdoteForm'
 import { voteAnecdote } from './reducers/anecdoteReducer'
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
 
     return (
         <div>
-            <NewAnecdoteForm/>
+            <AnecdoteForm/>
             <h2>Anecdotes</h2>
             {anecdotes.map(anecdote =>
                 <div key={anecdote.id}>

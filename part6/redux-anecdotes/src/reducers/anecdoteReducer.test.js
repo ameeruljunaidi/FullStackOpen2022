@@ -1,6 +1,6 @@
 import deepFree from 'deep-freeze'
 import anecdoteReducer from './anecdoteReducer'
-import { initialState} from '../utils/initialData'
+import { initialState, asObject } from '../utils/initialData'
 
 describe('anecdote reducer', () => {
     test('return initial state when called with undefined state', () => {
@@ -24,5 +24,25 @@ describe('anecdote reducer', () => {
         deepFree(state)
         const newState = anecdoteReducer(state, action)
         expect(newState[0].votes).toEqual(1)
+    })
+
+    test('adding a new anecdote will post to the store', () => {
+        const newAnecdote = 'this anecdote will blow your mind hole'
+
+        const action = {
+            type: 'ADD_ANECDOTE',
+            anecdote: newAnecdote
+        }
+
+        const state = initialState
+        deepFree(state)
+        const newState = anecdoteReducer(state, action)
+        expect(newState).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    content: newAnecdote
+                })
+            ])
+        ) // source: https://medium.com/@andrei.pfeiffer/jest-matching-objects-in-array-50fe2f4d6b98
     })
 })

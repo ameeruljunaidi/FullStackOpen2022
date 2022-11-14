@@ -1,4 +1,4 @@
-import { initialState } from '../utils/initialData'
+import { initialState, asObject } from '../utils/initialData'
 
 const reducer = (state = initialState, action) => {
     console.log('state now: ', state)
@@ -10,6 +10,8 @@ const reducer = (state = initialState, action) => {
                 ? anecdote
                 : { ...anecdote, votes: anecdote.votes + 1 }
             )
+        case 'ADD_ANECDOTE':
+            return [ ...state, asObject(action.anecdote)]
         default:
             return state
     }

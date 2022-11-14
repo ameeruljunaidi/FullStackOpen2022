@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
+import NewAnecdoteForm from './components/NewAnecdoteForm'
 
 const App = () => {
     const anecdotes = useSelector(state => state)
@@ -10,6 +11,7 @@ const App = () => {
 
     return (
         <div>
+            <NewAnecdoteForm/>
             <h2>Anecdotes</h2>
             {anecdotes.map(anecdote =>
                 <div key={anecdote.id}>

@@ -17,5 +17,8 @@ export const asObject = (anecdote) => {
     }
 }
 
+export const sortedState = (state) => state.sort((a, b) => b.votes - a.votes)
+
+
 export const initialState = anecdotesAtStart.map(asObject)
 

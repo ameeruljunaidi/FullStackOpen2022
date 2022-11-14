@@ -2,7 +2,7 @@ import deepFreeze from 'deep-freeze'
 import notificationReducer from './notificationReducer'
 
 describe('notification reducer', () => {
-    const initialState = 'welcome to the anecdotes'
+    const initialState = ''
     test('return initial state when called with undefined state', () => {
         const action = {
             type: 'DO_NOTHING'

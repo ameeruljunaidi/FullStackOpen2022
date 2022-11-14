@@ -1,8 +1,6 @@
-import { initialState, asObject } from '../utils/initialData'
+import { initialState, asObject, sortedState } from '../utils/initialData'
 import { createSlice } from '@reduxjs/toolkit'
 
-
-const sortedState = (state) => state.sort((a, b) => b.votes - a.votes)
 
 // const reducer = (state = initialState, action) => {
 //     console.log('state now: ', state)
@@ -47,7 +45,7 @@ const anecdoteSlice = createSlice({
     initialState,
     reducers: {
         voteAnecdote: voteAnecdoteAction,
-        addAnecdote: addAnecdoteAction
+        addAnecdote: addAnecdoteAction,
     }
 })
 

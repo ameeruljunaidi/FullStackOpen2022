@@ -9,7 +9,7 @@ describe('anecdote reducer', () => {
         }
 
         const newState = anecdoteReducer(undefined, action)
-        expect(newState[0]).toEqual(initialState[0])
+        expect(newState).toEqual([])
     })
 
     test('increase the vote by one', () => {

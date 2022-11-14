@@ -1,4 +1,4 @@
-import { initialState, asObject, sortedState } from '../utils/initialData'
+import { asObject, sortedState } from '../utils/initialData'
 import { createSlice } from '@reduxjs/toolkit'
 
 
@@ -40,14 +40,17 @@ const addAnecdoteAction = (state, action) => {
     state.push(anecdote)
 }
 
+const setAnecdotesAction = (state, action) => action.payload
+
 const anecdoteSlice = createSlice({
     name: 'anecdotes',
-    initialState,
+    initialState: [],
     reducers: {
         voteAnecdote: voteAnecdoteAction,
         addAnecdote: addAnecdoteAction,
+        setAnecdotes: setAnecdotesAction
     }
 })
 
-export const { voteAnecdote, addAnecdote } = anecdoteSlice.actions
+export const { voteAnecdote, addAnecdote, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer

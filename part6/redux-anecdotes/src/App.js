@@ -1,13 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux'
 import NewAnecdoteForm from './components/NewAnecdoteForm'
+import { voteAnecdote } from './reducers/anecdoteReducer'
 
 const App = () => {
     const anecdotes = useSelector(state => state)
     const dispatch = useDispatch()
 
-    const vote = (id) => {
-        dispatch({ type: 'INCREASE_VOTE', id: id })
-    }
+    const vote = (id) => dispatch(voteAnecdote(id))
 
     return (
         <div>

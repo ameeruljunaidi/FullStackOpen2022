@@ -19,18 +19,13 @@ const AnecdoteList = () => {
     })
 
     const voteHandler = (anecdote) => {
-        dispatch(setNotification(`you voted ${anecdote.content}`))
-
         const updatedAnecdote = {
             ...anecdote,
             votes: anecdote.votes + 1
         }
 
         dispatch(updateAnecdote(updatedAnecdote))
-        setTimeout(() => {
-            dispatch(setNotification(''))
-
-        }, 5000)
+        dispatch(setNotification(`you voted ${anecdote.content}`, 5000))
     }
 
     return (

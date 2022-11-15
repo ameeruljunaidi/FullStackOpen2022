@@ -1,6 +1,6 @@
-import { asObject, sortedState } from '../utils/initialData'
+import { sortedState } from '../utils/initialData'
 import { createSlice } from '@reduxjs/toolkit'
-
+import anecdoteService from '../services/anecdoteService'
 
 // const reducer = (state = initialState, action) => {
 //     console.log('state now: ', state)
@@ -51,6 +51,20 @@ const anecdoteSlice = createSlice({
         setAnecdotes: setAnecdotesAction
     }
 })
+
+export const initializeAnecdotes = () => {
+    return async dispatch => {
+        const anecdotes = await anecdoteService.getAll()
+        dispatch(setAnecdotes(anecdotes))
+    }
+}
+
+export const createAnecdote = anecdote => {
+    return async dispatch => {
+        const newAnecdote = await anecdoteService.createNew(anecdote)
+        dispatch(addAnecdote(newAnecdote))
+    }
+}
 
 export const { voteAnecdote, addAnecdote, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer

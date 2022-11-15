@@ -24,14 +24,9 @@ import anecdoteService from '../services/anecdoteService'
 
 // const voteAnecdote = (id) => ({ type: 'INCREASE_VOTE', id: id })
 
-const voteAnecdoteAction = (state, action) => {
-    return sortedState(
-        state.map(anecdote => (anecdote.id !== action.payload) ? anecdote : {
-            ...anecdote,
-            votes: anecdote.votes + 1
-        })
-    )
-}
+const patchAnecdoteAction = (state, action) => sortedState(
+    state.map(anecdote => (anecdote.id !== action.payload.id) ? anecdote : action.payload)
+)
 
 // const addAnecdote = (anecdote) => ({ type: 'ADD_ANECDOTE', anecdote: anecdote })
 
@@ -46,11 +41,13 @@ const anecdoteSlice = createSlice({
     name: 'anecdotes',
     initialState: [],
     reducers: {
-        voteAnecdote: voteAnecdoteAction,
+        patchAnecdote: patchAnecdoteAction,
         addAnecdote: addAnecdoteAction,
         setAnecdotes: setAnecdotesAction
     }
 })
+
+export const { patchAnecdote, addAnecdote, setAnecdotes } = anecdoteSlice.actions
 
 export const initializeAnecdotes = () => {
     return async dispatch => {
@@ -66,5 +63,11 @@ export const createAnecdote = anecdote => {
     }
 }
 
-export const { voteAnecdote, addAnecdote, setAnecdotes } = anecdoteSlice.actions
+export const updateAnecdote = newAnecdote => {
+    return async dispatch => {
+        const returnedAnecdote = await anecdoteService.updateAnecdote(newAnecdote)
+        dispatch(patchAnecdote(returnedAnecdote))
+    }
+}
+
 export default anecdoteSlice.reducer

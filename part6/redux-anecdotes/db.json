@@ -28,11 +28,21 @@
     {
       "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
       "id": "98312",
-      "votes": 2
+      "votes": 3
     },
     {
       "content": "this anecdote is created using connected components",
       "id": "25461",
+      "votes": 11
+    },
+    {
+      "content": "this anecdote tests the notification",
+      "id": "36538",
+      "votes": 12
+    },
+    {
+      "content": "this anecdote tests the notification again",
+      "id": "95865",
       "votes": 0
     }
   ]

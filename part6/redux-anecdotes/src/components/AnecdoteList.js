@@ -24,7 +24,10 @@ const AnecdoteList = (prop) => {
         }
 
         prop.updateAnecdote(updatedAnecdote)
-        prop.setNotification(`you voted ${anecdote.content}`, 5000)
+
+        const notification = prop.notification
+
+        prop.setNotification({ ...notification, message: `you voted ${anecdote.content}` }, 5000)
     }
 
     return (
@@ -52,7 +55,8 @@ const AnecdoteList = (prop) => {
 const mapStateToProps = (state) => {
     return {
         filter: state.filter,
-        anecdotes: state.anecdotes
+        anecdotes: state.anecdotes,
+        notification: state.notification
     }
 }
 

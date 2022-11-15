@@ -12,20 +12,24 @@ const AnecdoteForm = (prop) => {
         prop.createAnecdote(anecdote)
         event.target.anecdote.value = ''
 
-        prop.setNotification(`you added ${anecdote}`)
-        setTimeout(() => {
-            prop.setNotification('')
-        }, 5000)
+        const notification = prop.notification
+        prop.setNotification({ ...notification, message: `you added ${anecdote}` })
     }
 
     return (
         <div>
             <form onSubmit={addNewAnecdote}>
-                <input name='anecdote' />
-                <button type='submit'>add anecdote</button>
+                <input name="anecdote" />
+                <button type="submit">add anecdote</button>
             </form>
         </div>
     )
+}
+
+const mapStateToProps = state => {
+    return {
+        notification: state.notification
+    }
 }
 
 const mapDispatchToProps = {
@@ -33,4 +37,4 @@ const mapDispatchToProps = {
     setNotification
 }
 
-export default connect(null, mapDispatchToProps)(AnecdoteForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)

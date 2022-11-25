@@ -92,7 +92,13 @@ const CreateNew = (props) => {
         content.reset();
         author.reset();
         info.reset();
-    }
+    };
+
+    const inputProps = (fieldHook) => ({
+        type: fieldHook.type,
+        value: fieldHook.value,
+        onChange: fieldHook.onChange,
+    });
 
     return (
         <div>
@@ -100,15 +106,15 @@ const CreateNew = (props) => {
             <form onSubmit={handleSubmit}>
                 <div>
                     content
-                    <input name="content" value={content.value} onChange={content.onChange} />
+                    <input name="content" {...inputProps(content)} />
                 </div>
                 <div>
                     author
-                    <input name="author" value={author.value} onChange={author.onChange} />
+                    <input name="author" {...inputProps(author)} />
                 </div>
                 <div>
                     url for more info
-                    <input name="info" value={info.value} onChange={info.onChange} />
+                    <input name="info" {...inputProps(info)} />
                 </div>
                 <button>create</button>
                 <button type="reset" onClick={handleReset}>reset</button>

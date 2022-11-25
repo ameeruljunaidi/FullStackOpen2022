@@ -1,24 +1,16 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useParams } from "react-router-dom";
 
-const Menu = ({ anecdotes }) => {
+const Menu = () => {
     const padding = {
         paddingRight: 5,
     };
     return (
-        <Router>
-            <div>
-                <Link to="/anecdotes" style={padding}>anecdotes</Link>
-                <Link to="/create" style={padding}>create new</Link>
-                <Link to="/about" style={padding}>about</Link>
-            </div>
-
-            <Routes>
-                <Route path="/anecdotes" element={<AnecdoteList anecdotes={anecdotes} />} />
-                <Route path="/create" element={<CreateNew />} />
-                <Route path="/about" element={<About />} />
-            </Routes>
-        </Router>
+        <div>
+            <Link to="/anecdotes" style={padding}>anecdotes</Link>
+            <Link to="/create" style={padding}>create new</Link>
+            <Link to="/about" style={padding}>about</Link>
+        </div>
     );
 };
 
@@ -26,10 +18,31 @@ const AnecdoteList = ({ anecdotes }) => (
     <div>
         <h2>Anecdotes</h2>
         <ul>
-            {anecdotes.map(anecdote => <li key={anecdote.id}>{anecdote.content}</li>)}
+            {anecdotes.map(anecdote =>
+                <li key={anecdote.id}>
+                    <Link to={`/anecdotes/${anecdote.id}`}>
+                        {anecdote.content}
+                    </Link>
+                </li>)
+            }
         </ul>
     </div>
 );
+
+const Anecdote = ({ anecdotes }) => {
+    console.log("anecdotes: ", anecdotes);
+    const id = useParams().id;
+    console.log("id: ", id);
+    const anecdote = anecdotes.find(anecdote => anecdote.id === Number(id));
+    console.log("anecdote: ", anecdote);
+    return (
+        <div>
+            <h2>{anecdote.content}</h2>
+            <div>has {anecdote.votes} votes</div>
+            <div>for more info see {anecdote.url}</div>
+        </div>
+    );
+};
 
 const About = () => (
     <div>
@@ -135,11 +148,21 @@ const App = () => {
     };
 
     return (
-        <div>
-            <h1>Software anecdotes</h1>
-            <Menu anecdotes={anecdotes} />
+        <Router>
+            <div>
+                <h1>Software anecdotes</h1>
+                <Menu />
+            </div>
+
+            <Routes>
+                <Route path="/anecdotes" element={<AnecdoteList anecdotes={anecdotes} />} />
+                <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} />} />
+                <Route path="/create" element={<CreateNew />} />
+                <Route path="/about" element={<About />} />
+            </Routes>
+
             <Footer />
-        </div>
+        </Router>
     );
 };
 

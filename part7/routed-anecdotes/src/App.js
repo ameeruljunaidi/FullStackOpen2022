@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 
 const Menu = () => {
     const padding = {
@@ -75,6 +75,8 @@ const CreateNew = (props) => {
     const [author, setAuthor] = useState("");
     const [info, setInfo] = useState("");
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         props.addNew({
@@ -83,6 +85,8 @@ const CreateNew = (props) => {
             info,
             votes: 0,
         });
+
+        navigate('/anecdotes')
     };
 
     return (
@@ -157,7 +161,7 @@ const App = () => {
             <Routes>
                 <Route path="/anecdotes" element={<AnecdoteList anecdotes={anecdotes} />} />
                 <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} />} />
-                <Route path="/create" element={<CreateNew />} />
+                <Route path="/create" element={<CreateNew addNew={addNew} />} />
                 <Route path="/about" element={<About />} />
             </Routes>
 

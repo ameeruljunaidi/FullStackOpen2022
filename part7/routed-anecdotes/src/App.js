@@ -31,11 +31,8 @@ const AnecdoteList = ({ anecdotes }) => (
 );
 
 const Anecdote = ({ anecdotes }) => {
-    console.log("anecdotes: ", anecdotes);
     const id = useParams().id;
-    console.log("id: ", id);
     const anecdote = anecdotes.find(anecdote => anecdote.id === Number(id));
-    console.log("anecdote: ", anecdote);
     return (
         <div>
             <h2>{anecdote.content}</h2>
@@ -80,18 +77,22 @@ const CreateNew = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("content", content.value);
-        console.log("author", author.value);
-        console.log("info", info.value);
         props.addNew({
-            content : content.value,
-            author : author.value,
+            content: content.value,
+            author: author.value,
             info: info.value,
             votes: 0,
         });
 
-        navigate('/anecdotes')
+        navigate("/anecdotes");
     };
+
+    const handleReset = (e) => {
+        e.preventDefault();
+        content.reset();
+        author.reset();
+        info.reset();
+    }
 
     return (
         <div>
@@ -110,6 +111,7 @@ const CreateNew = (props) => {
                     <input name="info" value={info.value} onChange={info.onChange} />
                 </div>
                 <button>create</button>
+                <button type="reset" onClick={handleReset}>reset</button>
             </form>
         </div>
     );

@@ -1,15 +1,15 @@
-import '../index.css'
+import "../index.css";
 
 const Notification = ({ message, success }) => {
     if (message === null) {
-        return null
+        return null;
     }
 
     if (success) {
-        return <div className='success'>{message}</div>
+        return <div className="success">{message}</div>;
     } else {
-        return <div className='error'>{message}</div>
+        return <div className="error">{message}</div>;
     }
-}
+};
 
-export default Notification
+export default Notification;

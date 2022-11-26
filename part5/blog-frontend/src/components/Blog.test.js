@@ -1,112 +1,118 @@
-import React from 'react'
-import { createRoot } from 'react-dom/client'
-import { act } from 'react-dom/test-utils'
-import '@testing-library/jest-dom/extend-expect'
-import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import Blog from './Blog'
-import mockAxios from 'axios'
-import userService from '../services/user'
-import blogService from '../services/blogs'
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { act } from "react-dom/test-utils";
+import "@testing-library/jest-dom/extend-expect";
+import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import Blog from "./Blog";
+import mockAxios from "axios";
+import userService from "../services/user";
+import blogService from "../services/blogs";
 
-jest.mock('axios')
+jest.mock("axios");
 
-describe('Testing blog component', () => {
+describe("Testing blog component", () => {
     const blog = {
-        title: 'this is a test title',
-        author: 'this is a test author',
-        url: 'https://test-url.com',
+        title: "this is a test title",
+        author: "this is a test author",
+        url: "https://test-url.com",
         likes: 23,
         user: {
-            username: 'test-username',
-            name: 'test-name',
-            id: 'test-id'
-        }
-    }
+            username: "test-username",
+            name: "test-name",
+            id: "test-id",
+        },
+    };
 
     const getAllBlogResponse = {
-        data: [blog]
-    }
+        data: [blog],
+    };
 
     const user = {
-        token: 'test-token',
-        username: 'test-username',
-        name: 'test-name'
-    }
+        token: "test-token",
+        username: "test-username",
+        name: "test-name",
+    };
 
     const getUserResponse = {
         data: {
-            username: 'test-username',
-            name: 'test-name',
-            id: 'test-id'
-        }
-    }
+            username: "test-username",
+            name: "test-name",
+            id: "test-id",
+        },
+    };
 
-    let container = null
+    let container = null;
 
-    const addLikesMockHandler = jest.fn()
+    const addLikesMockHandler = jest.fn();
 
     beforeEach(async () => {
-        container = document.createElement('div')
-        container.setAttribute('id', 'root')
-        document.body.appendChild(container)
+        container = document.createElement("div");
+        container.setAttribute("id", "root");
+        document.body.appendChild(container);
 
         await act(async () => {
-            const root = createRoot(document.getElementById('root'))
-            root.render(<Blog blog={blog} user={user} handleAddLikes={addLikesMockHandler} />)
-        })
-    })
+            const root = createRoot(document.getElementById("root"));
+            root.render(
+                <Blog
+                    blog={blog}
+                    user={user}
+                    handleAddLikes={addLikesMockHandler}
+                />
+            );
+        });
+    });
 
     afterEach(() => {
-        jest.clearAllMocks()
-        container.remove()
-        container = null
-    })
+        jest.clearAllMocks();
+        container.remove();
+        container = null;
+    });
 
-    mockAxios.get.mockImplementation(url => {
+    mockAxios.get.mockImplementation((url) => {
         switch (url) {
-        case `${userService.baseUrl}/${blog.user.id}`:
-            return Promise.resolve(getUserResponse)
-        case `${blogService.baseUrl}`:
-            return Promise.resolve(getAllBlogResponse)
-        case `${blogService.baseUrl}/${blog.id}`:
-            return Promise.resolve({ data: blog })
-        default:
-            return Promise.reject(new Error('not found'))
+            case `${userService.baseUrl}/${blog.user.id}`:
+                return Promise.resolve(getUserResponse);
+            case `${blogService.baseUrl}`:
+                return Promise.resolve(getAllBlogResponse);
+            case `${blogService.baseUrl}/${blog.id}`:
+                return Promise.resolve({ data: blog });
+            default:
+                return Promise.reject(new Error("not found"));
         }
-    })
+    });
 
-    test('renders blog\'s title and author, but does not render its url or number of likes by default', async () => {
-        const div = container.querySelector('.blog')
+    test("renders blog's title and author, but does not render its url or number of likes by default", async () => {
+        const div = container.querySelector(".blog");
 
-        expect(div).toHaveTextContent('this is a test title')
-        expect(div).not.toHaveTextContent('https://test-url.com')
-        expect(div).not.toHaveTextContent('likes')
-        expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    })
+        expect(div).toHaveTextContent("this is a test title");
+        expect(div).not.toHaveTextContent("https://test-url.com");
+        expect(div).not.toHaveTextContent("likes");
+        expect(mockAxios.get).toHaveBeenCalledTimes(1);
+    });
 
-    test('clicking view will show the blog\'s url and number of likes', async () => {
-        const userForEvent = userEvent.setup()
-        const button = screen.getByText('view')
-        await userForEvent.click(button)
+    test("clicking view will show the blog's url and number of likes", async () => {
+        const userForEvent = userEvent.setup();
+        const button = screen.getByText("view");
+        await userForEvent.click(button);
 
-        const div = container.querySelector('.blog')
+        const div = container.querySelector(".blog");
 
-        expect(div).toHaveTextContent('https://test-url.com')
-        expect(div).toHaveTextContent('likes')
-        expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    })
+        expect(div).toHaveTextContent("https://test-url.com");
+        expect(div).toHaveTextContent("likes");
+        expect(mockAxios.get).toHaveBeenCalledTimes(1);
+    });
 
-    test('when the like button is pressed, the event handler the component get as prop will be called twice', async () => {
-        const userForEvent = userEvent.setup()
+    test("when the like button is pressed, the event handler the component get as prop will be called twice", async () => {
+        const userForEvent = userEvent.setup();
 
-        const viewButton = screen.getByText('view')
-        await userForEvent.click(viewButton)
+        const viewButton = screen.getByText("view");
+        await userForEvent.click(viewButton);
 
-        const likeButton = screen.getByText('like')
-        await userForEvent.click(likeButton)
-        await userForEvent.click(likeButton)
+        const likeButton = screen.getByText("like");
+        await userForEvent.click(likeButton);
+        await userForEvent.click(likeButton);
 
-        expect(addLikesMockHandler.mock.calls).toHaveLength(2)
-    })
-})
+        expect(addLikesMockHandler.mock.calls).toHaveLength(2);
+    });
+});

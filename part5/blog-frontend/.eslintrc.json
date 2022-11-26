@@ -14,10 +14,10 @@
     },
     "plugins": ["react"],
     "rules": {
-        "indent": ["error", 4],
+        "indent": ["error", 4, {"SwitchCase": 1}],
         "linebreak-style": ["error", "unix"],
-        "quotes": ["error", "single"],
-        "semi": ["error", "never"],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
         "eqeqeq": "error",
         "no-trailing-spaces": "error",
         "object-curly-spacing": ["error", "always"],

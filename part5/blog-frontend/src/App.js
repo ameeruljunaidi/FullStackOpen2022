@@ -5,6 +5,7 @@ import LogoutButton from "./components/LogoutButton";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => (
     <Router>
@@ -14,6 +15,7 @@ const App = () => (
         <Routes>
             <Route path="/" element={<BlogList />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User />} />
         </Routes>
 
         <Notification />

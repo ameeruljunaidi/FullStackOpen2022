@@ -1,8 +1,12 @@
 import "../index.css";
+import { useSelector } from "react-redux";
 
-const Notification = ({ message, success }) => {
-    if (message === null) {
-        return null;
+const Notification = () => {
+    const message = useSelector((state) => state.notification.message);
+    const success = useSelector((state) => state.notification.success);
+
+    if (message === "") {
+        return;
     }
 
     if (success) {

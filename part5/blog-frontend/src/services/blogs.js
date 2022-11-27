@@ -6,9 +6,7 @@ import { info } from "../utils/logger";
 const baseUrl = "/api/blogs";
 
 const getConfig = () => {
-    const loggedUser = JSON.parse(
-        window.localStorage.getItem("loggedBlogAppUser")
-    );
+    const loggedUser = JSON.parse(window.localStorage.getItem("loggedBlogAppUser"));
     const bearerToken = `bearer ${loggedUser.token}`;
 
     const config = {
@@ -32,8 +30,9 @@ const create = async (newBlog) => {
 };
 
 const update = async (id, newBlog) => {
-    await axios.put(`${baseUrl}/${id}`, newBlog, getConfig());
+    const response = await axios.put(`${baseUrl}/${id}`, newBlog, getConfig());
     info("blog updated");
+    return response.data;
 };
 
 const remove = async (id) => {

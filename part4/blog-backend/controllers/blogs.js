@@ -59,12 +59,13 @@ blogsRouter.put("/:id", userExtractor, async (request, response) => {
         author: body.author,
         url: body.url,
         likes: body.likes,
-        user: body.user,
+        user: body.user.id,
     };
 
     const result = await Blog.findByIdAndUpdate(request.params.id, blog, {
         new: true,
-    });
+    }).populate("user");
+    console.log("result", result);
     if (result) response.status(200).json(result);
     else response.status(404).end();
 });

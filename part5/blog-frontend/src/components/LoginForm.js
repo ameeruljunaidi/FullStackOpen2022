@@ -1,37 +1,27 @@
 import { useState } from "react";
-import loginService from "../services/login";
+import { getWindowUser } from "../utils/utils";
+import { useDispatch } from "react-redux";
+import { logIn } from "../reducers/userReducer";
 
-const LoginForm = ({ userLoggedIn, showNotification, setUser }) => {
+const LoginForm = () => {
+    const userLoggedIn = getWindowUser();
+
     if (userLoggedIn) return;
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const dispatch = useDispatch();
+
     const handleLogin = async (event) => {
         event.preventDefault();
 
-        try {
-            const user = await loginService.login({
-                username,
-                password,
-            });
-
-            setUsername("");
-            setPassword("");
-
-            window.localStorage.setItem(
-                "loggedBlogAppUser",
-                JSON.stringify(user)
-            );
-
-            setUser(user);
-
-            if (user) {
-                showNotification("Successfully logged in", true);
-            }
-        } catch (exception) {
-            showNotification("Wrong credentials", false);
-        }
+        dispatch(
+            logIn({
+                username: username,
+                password: password,
+            })
+        );
     };
 
     if (userLoggedIn === null) {

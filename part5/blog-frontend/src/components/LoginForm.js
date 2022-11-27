@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logIn } from "../reducers/userReducer";
+import { useField } from "../hooks";
 
 const LoginForm = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const usernameField = useField("text");
+    const passwordField = useField("text");
 
     const dispatch = useDispatch();
 
@@ -21,8 +22,8 @@ const LoginForm = () => {
 
         dispatch(
             logIn({
-                username: username,
-                password: password,
+                username: usernameField.value,
+                password: passwordField.value,
             })
         );
     };
@@ -33,23 +34,11 @@ const LoginForm = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     username
-                    <input
-                        type="text"
-                        value={username}
-                        name="Username"
-                        onChange={({ target }) => setUsername(target.value)}
-                        id="username-input"
-                    />
+                    <input {...usernameField.inputProp} name="Username" id="username-input" />
                 </div>
                 <div>
                     password
-                    <input
-                        type="text"
-                        value={password}
-                        name="Password"
-                        onChange={({ target }) => setPassword(target.value)}
-                        id="password-input"
-                    />
+                    <input {...passwordField.inputProp} name="Password" id="password-input" />
                 </div>
                 <button id="login-button" type="submit">
                     login

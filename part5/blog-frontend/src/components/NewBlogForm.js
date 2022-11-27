@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import { useField } from "../hooks";
 
 const NewBlogForm = ({ blogFormRef }) => {
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [url, setUrl] = useState("");
+    const titleField = useField("text");
+    const authorField = useField("text");
+    const urlField = useField("text");
+    const fields = [titleField, authorField, urlField];
 
     const dispatch = useDispatch();
 
@@ -15,18 +16,21 @@ const NewBlogForm = ({ blogFormRef }) => {
 
         dispatch(
             addBlog({
-                title: title,
-                author: author,
-                url: url,
+                title: titleField.value,
+                author: authorField.value,
+                url: urlField.value,
             })
         );
 
-        setTitle("");
-        setAuthor("");
-        setUrl("");
+        fields.forEach((field) => field.reset());
 
         blogFormRef.current.toggleVisibility();
-        dispatch(setNotification({ message: `Successfully added ${title} by ${author}`, success: true }));
+        dispatch(
+            setNotification({
+                message: `Successfully added ${titleField.value} by ${authorField.value}`,
+                success: true,
+            })
+        );
     };
 
     return (
@@ -35,33 +39,15 @@ const NewBlogForm = ({ blogFormRef }) => {
             <form onSubmit={addNewBlog}>
                 <div>
                     title:
-                    <input
-                        type="text"
-                        value={title}
-                        name="Title"
-                        onChange={({ target }) => setTitle(target.value)}
-                        id="title-input"
-                    />
+                    <input {...titleField.inputProp} name="Title" id="title-input" />
                 </div>
                 <div>
                     author:
-                    <input
-                        type="text"
-                        value={author}
-                        name="Author"
-                        onChange={({ target }) => setAuthor(target.value)}
-                        id="author-input"
-                    />
+                    <input {...authorField.inputProp} name="Author" id="author-input" />
                 </div>
                 <div>
                     url:
-                    <input
-                        type="text"
-                        value={url}
-                        name="URL"
-                        onChange={({ target }) => setUrl(target.value)}
-                        id="url-input"
-                    />
+                    <input {...urlField.inputProp} name="URL" id="url-input" />
                 </div>
                 <button id="create-blog-button" type="submit">
                     create

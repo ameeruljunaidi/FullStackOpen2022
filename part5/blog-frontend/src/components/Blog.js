@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog, updateBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { getUser } from "../reducers/userReducer";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog }) => {
     const [showDetail, setShowDetail] = useState(false);
@@ -60,9 +61,11 @@ const Blog = ({ blog }) => {
     }, []);
 
     const basicView = () => (
-        <div className="blog">
+        <div style={blogStyle} className="blog">
             <div className="inline">
-                {blog.title} {blog.author}
+                <Link to={`/blogs/${blog.id}`}>
+                    {blog.title} {blog.author}
+                </Link>
                 <button id="view-toggle-button" onClick={handleToggleDetail}>
                     view
                 </button>
@@ -74,7 +77,7 @@ const Blog = ({ blog }) => {
     const detailedView = () => (
         <div style={blogStyle} className="blog">
             <div className="inline">
-                {blog.title}
+                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
                 <button onClick={handleToggleDetail}>hide</button>
             </div>
             <div>{blog.url}</div>

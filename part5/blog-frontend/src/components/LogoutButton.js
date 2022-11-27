@@ -24,12 +24,8 @@ const LogoutButton = () => {
 
     return (
         <>
-            <h2>blogs</h2>
             <div className="inline">{userLoggedIn.name} logged in</div>
-            <br />
             <button onClick={handleLogOut}>log out</button>
-            <br />
-            <br />
         </>
     );
 };

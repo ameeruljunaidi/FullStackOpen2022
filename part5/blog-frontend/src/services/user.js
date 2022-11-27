@@ -8,10 +8,15 @@ const getUser = async (id) => {
     return response.data;
 };
 
+const getAllUsers = async () => {
+    const response = await axios.get(`${baseUrl}/`);
+    return response.data;
+};
+
 const shape = {
     username: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
 };
 
-export default { baseUrl, getUser, shape };
+export default { baseUrl, getUser, getAllUsers, shape };

@@ -24,10 +24,10 @@ const LogoutButton = () => {
 
     return (
         <>
-            <div className="inline">
-                {userLoggedIn.name} logged in
-                <button onClick={handleLogOut}>log out</button>
-            </div>
+            <h2>blogs</h2>
+            <div className="inline">{userLoggedIn.name} logged in</div>
+            <br />
+            <button onClick={handleLogOut}>log out</button>
             <br />
             <br />
         </>

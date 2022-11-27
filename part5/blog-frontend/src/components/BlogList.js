@@ -20,7 +20,7 @@ const BlogList = () => {
 
     return (
         <>
-            {blogs && userLoggedIn ? <h2>blogs</h2> : <div>log in to view blogs</div>}
+            {!userLoggedIn ? <div>log in to view blogs</div> : <></>}
             {userLoggedIn ? (
                 <>
                     <Togglable buttonId="new-blog-button" buttonLabel="new blog" ref={blogFormRef}>

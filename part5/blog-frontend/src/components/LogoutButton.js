@@ -1,11 +1,16 @@
-import { getWindowUser } from "../utils/utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
-import { setUser } from "../reducers/userReducer";
+import { getUser, setUser } from "../reducers/userReducer";
+import { useEffect } from "react";
 
-export function LogoutButton() {
-    const userLoggedIn = getWindowUser();
+const LogoutButton = () => {
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
+
+    const userLoggedIn = useSelector((state) => state.user);
 
     const handleLogOut = (event) => {
         event.preventDefault();
@@ -27,4 +32,6 @@ export function LogoutButton() {
             <br />
         </>
     );
-}
+};
+
+export default LogoutButton;

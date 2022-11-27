@@ -2,16 +2,22 @@ import blogService from "../services/blogs";
 import userService from "../services/user";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog, updateBlog } from "../reducers/blogReducer";
-import { getWindowUser } from "../utils/utils";
 import { setNotification } from "../reducers/notificationReducer";
+import { getUser } from "../reducers/userReducer";
 
 const Blog = ({ blog }) => {
     const [showDetail, setShowDetail] = useState(false);
     const [blogUsername, setBlogUsername] = useState(null);
-    const activeUser = getWindowUser();
+
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
+
+    const activeUser = useSelector((state) => state.user);
 
     const handleDeleteBlog = async (event, blog) => {
         event.preventDefault();

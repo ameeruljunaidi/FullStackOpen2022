@@ -4,17 +4,18 @@ import Togglable from "./Togglable";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import { getBlogs } from "../reducers/blogReducer";
-import { getWindowUser } from "../utils/utils";
+import { getUser } from "../reducers/userReducer";
 
-export function BlogList() {
-    const userLoggedIn = getWindowUser();
+const BlogList = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getBlogs());
+        dispatch(getUser());
     }, [dispatch]);
 
     const blogs = useSelector((state) => state.blogs);
+    const userLoggedIn = useSelector((state) => state.user);
     const blogFormRef = useRef();
 
     return (
@@ -34,4 +35,6 @@ export function BlogList() {
             )}
         </>
     );
-}
+};
+
+export default BlogList;

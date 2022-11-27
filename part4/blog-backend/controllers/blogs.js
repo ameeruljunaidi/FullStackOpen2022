@@ -28,18 +28,18 @@ blogsRouter.post("/", userExtractor, async (request, response) => {
 
     const blog = user
         ? new Blog({
-            title: body.title,
-            author: body.author,
-            url: body.url,
-            likes: body.likes ? body.likes : 0,
-            user: user,
-        })
+              title: body.title,
+              author: body.author,
+              url: body.url,
+              likes: body.likes ? body.likes : 0,
+              user: user,
+          })
         : new Blog({
-            title: body.title,
-            author: body.author,
-            url: body.url,
-            likes: body.likes ? body.likes : 0,
-        });
+              title: body.title,
+              author: body.author,
+              url: body.url,
+              likes: body.likes ? body.likes : 0,
+          });
 
     const result = await blog.save();
 
@@ -59,13 +59,14 @@ blogsRouter.put("/:id", userExtractor, async (request, response) => {
         author: body.author,
         url: body.url,
         likes: body.likes,
+        comments: body.comments,
         user: body.user.id,
     };
 
     const result = await Blog.findByIdAndUpdate(request.params.id, blog, {
         new: true,
     }).populate("user");
-    console.log("result", result);
+
     if (result) response.status(200).json(result);
     else response.status(404).end();
 });

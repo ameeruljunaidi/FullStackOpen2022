@@ -1,9 +1,16 @@
-PUT http://localhost:3003/api/blogs/6286523626d13740712464b8
+PUT http://localhost:3003/api/blogs/6382961247d9ddaca8d798e5
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QtdXNlcm5hbWUiLCJpZCI6IjYzNTYwZjVmYTQ5ODZkZGQ3ZmQ0NTdhMiIsImlhdCI6MTY2NjY3MDU0NH0.NfkCYAxRZgwBoFFdYkZs6EUa9SUtIKV24mEi9_T3JD8
 
 {
-  "title": "replace blog again",
+  "title": "replace blog again with comments",
   "author": "test author",
   "url": "https://test.url",
-  "likes": 4
+  "likes": 4,
+  "user": {
+    "id": "63560f5fa4986ddd7fd457a2"
+  },
+  "comments": [{
+    "body": "test comment"
+  }]
 }

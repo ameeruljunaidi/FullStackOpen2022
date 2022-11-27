@@ -32,8 +32,6 @@ const BlogView = () => {
     const handleAddComment = async (event, blog) => {
         event.preventDefault();
 
-        console.log("previous blog", blog);
-
         const newComment = { body: commentField.value };
         const updatedComments = !blog.comments ? [newComment] : blog.comments.concat(newComment);
 
@@ -42,7 +40,6 @@ const BlogView = () => {
             comments: updatedComments,
         };
 
-        console.log("updated blog", updatedBlog);
         dispatch(updateBlog(updatedBlog));
 
         commentField.reset();

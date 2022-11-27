@@ -61,7 +61,6 @@ export const deleteBlog = (id) => {
 
 export const updateBlog = (blog) => {
     return async (dispatch) => {
-        console.log("blog to update", blog);
         try {
             const returnedBlog = await blogService.update(blog.id, blog);
             dispatch(patchBlog(returnedBlog));

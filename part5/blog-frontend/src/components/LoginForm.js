@@ -36,7 +36,6 @@ const LoginForm = () => {
                     username
                     <input {...usernameField.inputProp} name="Username" id="username-input" />
                 </div>
-
                 <div>
                     password
                     <input {...passwordField.inputProp} name="Password" id="password-input" />

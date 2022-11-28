@@ -7,11 +7,11 @@ import { deleteBlog, updateBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { getUser } from "../reducers/userReducer";
 import { Link } from "react-router-dom";
+import { Button, InlineDiv } from "./styles/GeneralStyles.styled";
 
 const Blog = ({ blog }) => {
     const [showDetail, setShowDetail] = useState(false);
     const [blogUsername, setBlogUsername] = useState(null);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,7 +19,6 @@ const Blog = ({ blog }) => {
     }, [dispatch]);
 
     const activeUser = useSelector((state) => state.user);
-
     const handleDeleteBlog = async (event, blog) => {
         event.preventDefault();
 
@@ -40,6 +39,8 @@ const Blog = ({ blog }) => {
                 likes: blog.likes + 1,
             })
         );
+
+        dispatch(setNotification({ message: "Liking succeeded", success: true }));
     };
 
     const handleToggleDetail = () => setShowDetail((prevState) => !prevState);
@@ -62,35 +63,35 @@ const Blog = ({ blog }) => {
 
     const basicView = () => (
         <div style={blogStyle} className="blog">
-            <div className="inline">
+            <InlineDiv>
                 <Link to={`/blogs/${blog.id}`}>
                     {blog.title} {blog.author}
                 </Link>
-                <button id="view-toggle-button" onClick={handleToggleDetail}>
+                <Button id="view-toggle-button" onClick={handleToggleDetail}>
                     view
-                </button>
-            </div>
+                </Button>
+            </InlineDiv>
             <br></br>
         </div>
     );
 
     const detailedView = () => (
         <div style={blogStyle} className="blog">
-            <div className="inline">
+            <InlineDiv>
                 <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-                <button onClick={handleToggleDetail}>hide</button>
-            </div>
+                <Button onClick={handleToggleDetail}>hide</Button>
+            </InlineDiv>
             <div>{blog.url}</div>
-            <div className="inline">
+            <InlineDiv>
                 {blog.likes} likes
-                <button id="like-button" onClick={(event) => handleAddLikes(event, blog)}>
+                <Button id="like-button" onClick={(event) => handleAddLikes(event, blog)}>
                     like
-                </button>
-            </div>
+                </Button>
+            </InlineDiv>
             <div>{blog.author}</div>
             <div>
                 {activeUser && blogUsername === activeUser.username ? (
-                    <button onClick={(event) => handleDeleteBlog(event, blog)}>delete blog</button>
+                    <Button onClick={(event) => handleDeleteBlog(event, blog)}>delete blog</Button>
                 ) : (
                     <></>
                 )}

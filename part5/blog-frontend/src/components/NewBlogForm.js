@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { addBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
+import { Button, Input } from "./styles/GeneralStyles.styled";
 
 const NewBlogForm = ({ blogFormRef }) => {
     const titleField = useField("text");
@@ -39,19 +40,19 @@ const NewBlogForm = ({ blogFormRef }) => {
             <form onSubmit={addNewBlog}>
                 <div>
                     title:
-                    <input {...titleField.inputProp} name="Title" id="title-input" />
+                    <Input {...titleField.inputProp} name="Title" id="title-input" />
                 </div>
                 <div>
                     author:
-                    <input {...authorField.inputProp} name="Author" id="author-input" />
+                    <Input {...authorField.inputProp} name="Author" id="author-input" />
                 </div>
                 <div>
                     url:
-                    <input {...urlField.inputProp} name="URL" id="url-input" />
+                    <Input {...urlField.inputProp} name="URL" id="url-input" />
                 </div>
-                <button id="create-blog-button" type="submit">
+                <Button id="create-blog-button" type="submit">
                     create
-                </button>
+                </Button>
             </form>
         </>
     );

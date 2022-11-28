@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getBlogs } from "../reducers/blogReducer";
 import { updateBlog } from "../reducers/blogReducer";
 import { useField } from "../hooks";
+import { Button, InlineDiv, Input } from "./styles/GeneralStyles.styled";
 
 const BlogView = () => {
     const dispatch = useDispatch();
@@ -51,21 +52,21 @@ const BlogView = () => {
         <div>
             <h2>{blog.title}</h2>
             <div>{blog.url}</div>
-            <div className="inline">
+            <InlineDiv>
                 {blog.likes} likes
-                <button id="like-button" onClick={(event) => handleAddLikes(event, blog)}>
+                <Button id="like-button" onClick={(event) => handleAddLikes(event, blog)}>
                     like
-                </button>
-            </div>
+                </Button>
+            </InlineDiv>
             <div>added by {blog.user.name}</div>
 
             <h2>comments</h2>
             <form onSubmit={(event) => handleAddComment(event, blog)}>
                 <div>
-                    <input {...commentField.inputProp} name="Comment" id="comment-input" />
-                    <button id="add-comment-button" type="submit">
+                    <Input {...commentField.inputProp} name="Comment" id="comment-input" />
+                    <Button id="add-comment-button" type="submit">
                         add comment
-                    </button>
+                    </Button>
                 </div>
             </form>
             {blog.comments ? (
@@ -76,9 +77,9 @@ const BlogView = () => {
                 <></>
             )}
 
-            <button id="back-to-blogs" onClick={() => navigate("/")}>
+            <Button id="back-to-blogs" onClick={() => navigate("/")}>
                 back
-            </button>
+            </Button>
         </div>
     );
 };

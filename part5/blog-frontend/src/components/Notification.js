@@ -1,5 +1,5 @@
-import "../index.css";
 import { useSelector } from "react-redux";
+import { ErrorNotification, SuccessNotification } from "./styles/Notification.styled";
 
 const Notification = () => {
     const message = useSelector((state) => state.notification.message);
@@ -10,9 +10,9 @@ const Notification = () => {
     }
 
     if (success) {
-        return <div className="success">{message}</div>;
+        return <SuccessNotification>{message}</SuccessNotification>;
     } else {
-        return <div className="error">{message}</div>;
+        return <ErrorNotification>{message}</ErrorNotification>;
     }
 };
 

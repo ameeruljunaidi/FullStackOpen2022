@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, logIn } from "../reducers/userReducer";
 import { useField } from "../hooks";
+import { Button, Input } from "./styles/GeneralStyles.styled";
 
 const LoginForm = () => {
     const usernameField = useField("text");
@@ -34,15 +35,15 @@ const LoginForm = () => {
             <form onSubmit={handleLogin}>
                 <div>
                     username
-                    <input {...usernameField.inputProp} name="Username" id="username-input" />
+                    <Input {...usernameField.inputProp} name="Username" id="username-input" />
                 </div>
                 <div>
                     password
-                    <input {...passwordField.inputProp} name="Password" id="password-input" />
+                    <Input {...passwordField.inputProp} name="Password" id="password-input" />
                 </div>
-                <button id="login-button" type="submit">
+                <Button id="login-button" type="submit">
                     login
-                </button>
+                </Button>
             </form>
         </>
     );

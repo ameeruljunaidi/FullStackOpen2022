@@ -1,41 +1,41 @@
-import { useMutation } from '@apollo/client'
-import { useState } from 'react'
-import { CREATE_BOOK } from '../mutations'
-import { ALL_BOOKS } from '../queries'
+import { useMutation } from "@apollo/client";
+import { useState } from "react";
+import { CREATE_BOOK } from "../mutations";
+import { ALL_BOOKS } from "../queries";
 
 const NewBook = props => {
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [published, setPublished] = useState('')
-    const [genre, setGenre] = useState('')
-    const [genres, setGenres] = useState([])
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [published, setPublished] = useState("");
+    const [genre, setGenre] = useState("");
+    const [genres, setGenres] = useState([]);
 
     const [createBook, { loading, error }] = useMutation(CREATE_BOOK, {
         refetchQueries: [{ query: ALL_BOOKS }],
         onError: error => console.error(error),
-        onCompleted: data => console.log('Book added', data.addBook),
-    })
+        onCompleted: data => console.log("Book added", data.addBook),
+    });
 
-    if (!props.show) return null
-    if (loading) return <div>Adding book...</div>
-    if (error) return <div>Error! {error.message}</div>
+    if (!props.show) return null;
+    if (loading) return <div>Adding book...</div>;
+    if (error) return <div>Error! {error.message}</div>;
 
     const submit = async event => {
-        event.preventDefault()
+        event.preventDefault();
 
-        createBook({ variables: { title, author, genres, published } })
+        createBook({ variables: { title, author, genres, published: parseInt(published) } });
 
-        setTitle('')
-        setPublished('')
-        setAuthor('')
-        setGenres([])
-        setGenre('')
-    }
+        setTitle("");
+        setPublished("");
+        setAuthor("");
+        setGenres([]);
+        setGenre("");
+    };
 
     const addGenre = () => {
-        setGenres(genres => genres.concat(genre))
-        setGenre('')
-    }
+        setGenres(genres => genres.concat(genre));
+        setGenre("");
+    };
 
     return (
         <div>
@@ -50,19 +50,19 @@ const NewBook = props => {
                 </div>
                 <div>
                     published
-                    <input type='number' value={published} onChange={({ target }) => setPublished(target.value)} />
+                    <input type="number" value={published} onChange={({ target }) => setPublished(target.value)} />
                 </div>
                 <div>
                     <input value={genre} onChange={({ target }) => setGenre(target.value)} />
-                    <button onClick={addGenre} type='button'>
+                    <button onClick={addGenre} type="button">
                         add genre
                     </button>
                 </div>
-                <div>genres: {genres.join(' ')}</div>
-                <button type='submit'>create book</button>
+                <div>genres: {genres.join(" ")}</div>
+                <button type="submit">create book</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default NewBook
+export default NewBook;

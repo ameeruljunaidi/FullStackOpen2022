@@ -1,17 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
-import { ALL_BOOKS } from "../queries";
+import { GET_BOOK_BY_GENRE, GET_GENRES } from "../queries";
 
 const Books = props => {
-    const { loading, error, data } = useQuery(ALL_BOOKS);
     const [chosenGenre, setGenre] = useState(null);
+    const getBooksByGenre = useQuery(GET_BOOK_BY_GENRE, { variables: { genre: [chosenGenre] } });
+    const getGenres = useQuery(GET_GENRES);
 
     if (!props.show) return null;
-    if (loading) return <div>Loading books...</div>;
-    if (error) return <div>Error! {error.message}</div>;
+    if (getBooksByGenre.loading || getGenres.loading) return <div>Loading books...</div>;
+    if (getBooksByGenre.error) return <div>Error! {getBooksByGenre.error.message}</div>;
+    if (getGenres.error) return <div>Error! {getGenres.error.message}</div>;
 
-    const books = data.allBooks;
-    const genres = [...new Set(books.map(book => book.genres).flat())];
+    const books = getBooksByGenre.data.allBooks;
+    const genres = getGenres.data.allGenres;
 
     const updateGenre = (event, toSetGenre) => {
         event.preventDefault();
@@ -35,15 +37,13 @@ const Books = props => {
                         <th>author</th>
                         <th>published</th>
                     </tr>
-                    {books
-                        .filter(book => (!chosenGenre ? true : book.genres.includes(chosenGenre)))
-                        .map(a => (
-                            <tr key={a.title}>
-                                <td>{a.title}</td>
-                                <td>{a.author.name}</td>
-                                <td>{a.published}</td>
-                            </tr>
-                        ))}
+                    {books.map(a => (
+                        <tr key={a.title}>
+                            <td>{a.title}</td>
+                            <td>{a.author.name}</td>
+                            <td>{a.published}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

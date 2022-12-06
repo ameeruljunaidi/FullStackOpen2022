@@ -1,7 +1,7 @@
-import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
 import { CREATE_BOOK } from "../mutations";
-import { ALL_BOOKS } from "../queries";
+import { GET_BOOK_BY_GENRE, GET_GENRES } from "../queries";
 
 const NewBook = props => {
     const [title, setTitle] = useState("");
@@ -9,16 +9,47 @@ const NewBook = props => {
     const [published, setPublished] = useState("");
     const [genre, setGenre] = useState("");
     const [genres, setGenres] = useState([]);
+    const [genresInDb, setGenreInDb] = useState([]);
+
+    const getGenres = useQuery(GET_GENRES);
+
+    useEffect(() => {
+        if (getGenres.data) {
+            setGenreInDb(getGenres.data.allGenres);
+            console.log("🚀 ~ file: NewBook.js:20 ~ useEffect ~ getGenres.data.allGenres", getGenres.data.allGenres);
+        }
+    }, [getGenres.data]);
 
     const [createBook, { loading, error }] = useMutation(CREATE_BOOK, {
-        refetchQueries: [{ query: ALL_BOOKS }],
         onError: error => console.error(error),
         onCompleted: data => console.log("Book added", data.addBook),
+        update: (cache, response) => {
+            genres.forEach(current => {
+                const genreQuery = { query: GET_BOOK_BY_GENRE, variables: { genre: [current] } };
+
+                if (genresInDb.includes(current) && cache.readQuery(genreQuery)) {
+                    cache.updateQuery(genreQuery, ({ allBooks }) => {
+                        return {
+                            allBooks: allBooks.concat(response.data.addBook),
+                        };
+                    });
+                }
+
+                if (!genresInDb.includes(current)) {
+                    cache.updateQuery({ query: GET_GENRES }, ({ allGenres }) => {
+                        return {
+                            allGenres: allGenres.concat(current),
+                        };
+                    });
+                }
+            });
+        },
     });
 
     if (!props.show) return null;
-    if (loading) return <div>Adding book...</div>;
+    if (loading || getGenres.loading) return <div>Adding book...</div>;
     if (error) return <div>Error! {error.message}</div>;
+    if (getGenres.error) return <div>Error! {getGenres.error.message}</div>;
 
     const submit = async event => {
         event.preventDefault();

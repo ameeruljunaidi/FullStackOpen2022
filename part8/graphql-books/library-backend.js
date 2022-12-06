@@ -75,7 +75,8 @@ const typeDefs = gql`
     type Query {
         bookCount: Int!
         authorCount: Int!
-        allBooks(author: String, genre: String): [Book!]!
+        allBooks(author: String, genre: [String]): [Book!]!
+        allGenres: [String]!
         allAuthors: [Author]!
         me: User
     }
@@ -97,14 +98,17 @@ const resolvers = {
 
             const searchParam = {
                 ...(args.author ? { author: authorFound } : {}),
-                ...(args.genre ? { genres: { $in: [args.genre] } } : {}),
+                ...(args.genre && args.genre[0] ? { genres: { $in: args.genre } } : {}),
             };
 
             return Book.find(searchParam);
         },
+        allGenres: async () => {
+            const books = await Book.find({});
+            return [...new Set(books.map(book => book.genres).flat())];
+        },
         allAuthors: async () => Author.find({}),
         me: (_root, _args, context) => {
-            console.log("🚀 ~ file: library-backend.js:111 ~ me fetched!");
             return context.currentUser;
         },
     },

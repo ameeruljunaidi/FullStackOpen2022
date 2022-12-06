@@ -18,6 +18,17 @@ export const ALL_BOOKS = gql`
             }
             published
             title
+            genres
+        }
+    }
+`;
+
+export const GET_ME = gql`
+    query {
+        me {
+            id
+            username
+            genres
         }
     }
 `;

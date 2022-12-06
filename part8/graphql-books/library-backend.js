@@ -37,7 +37,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
                 .map(book => book.save())
         );
 
-        const user = new User({ username: "AJ Junaidi" });
+        const user = new User({ username: "AJ Junaidi", genres: ["refactoring", "agile"] });
         await user.save();
 
         console.log("Connected to MongoDB with test data.");
@@ -64,6 +64,7 @@ const typeDefs = gql`
 
     type User {
         username: String!
+        genres: [String]
         id: ID!
     }
 
@@ -103,6 +104,7 @@ const resolvers = {
         },
         allAuthors: async () => Author.find({}),
         me: (_root, _args, context) => {
+            console.log("🚀 ~ file: library-backend.js:111 ~ me fetched!");
             return context.currentUser;
         },
     },
@@ -145,11 +147,11 @@ const resolvers = {
         editAuthor: async (_root, args, { currentUser }) => {
             if (!currentUser) throw new AuthenticationError("Not authenticated");
 
-            const authorFound = await Author.findOne({ name: args.name });
+            const authorFound = await Author.findOne({ name: args.name }).lean();
             if (!authorFound) throw new UserInputError("Author does not exist");
 
             const updatedAuthor = { ...authorFound, born: args.setBornTo };
-            const returnedBlog = await Author.findByIdAndUpdate(authorFound.id, updatedAuthor, { new: true });
+            const returnedBlog = await Author.findByIdAndUpdate(authorFound._id, updatedAuthor, { new: true });
             return returnedBlog;
         },
         createUser: async (_root, args) => {

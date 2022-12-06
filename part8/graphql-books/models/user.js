@@ -6,6 +6,7 @@ const schema = new mongoose.Schema({
         required: true,
         minlength: 3,
     },
+    genres: [{ type: String, unique: true }],
 });
 
 module.exports = mongoose.model("User", schema);

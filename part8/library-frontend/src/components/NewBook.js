@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { CREATE_BOOK } from "../mutations";
 import { GET_BOOK_BY_GENRE, GET_GENRES } from "../queries";
+import { updateBookCache, updateGenreCache } from "../utilities";
 
 const NewBook = props => {
     const [title, setTitle] = useState("");
@@ -16,34 +17,26 @@ const NewBook = props => {
     useEffect(() => {
         if (getGenres.data) {
             setGenreInDb(getGenres.data.allGenres);
-            console.log("🚀 ~ file: NewBook.js:20 ~ useEffect ~ getGenres.data.allGenres", getGenres.data.allGenres);
         }
     }, [getGenres.data]);
 
+    const updateCache = (cache, response) => {
+        genres.forEach(current => {
+            const genreQuery = { query: GET_BOOK_BY_GENRE, variables: { genre: [current] } };
+            const addedBook = response.data.addBook;
+
+            if (genresInDb.includes(current) && cache.readQuery(genreQuery)) {
+                updateBookCache(cache, genreQuery, addedBook);
+                console.info("Updated book cache in NewBook.js");
+            } else {
+                updateGenreCache(cache, { query: GET_GENRES }, current);
+            }
+        });
+    };
+
     const [createBook, { loading, error }] = useMutation(CREATE_BOOK, {
         onError: error => console.error(error),
-        onCompleted: data => console.log("Book added", data.addBook),
-        update: (cache, response) => {
-            genres.forEach(current => {
-                const genreQuery = { query: GET_BOOK_BY_GENRE, variables: { genre: [current] } };
-
-                if (genresInDb.includes(current) && cache.readQuery(genreQuery)) {
-                    cache.updateQuery(genreQuery, ({ allBooks }) => {
-                        return {
-                            allBooks: allBooks.concat(response.data.addBook),
-                        };
-                    });
-                }
-
-                if (!genresInDb.includes(current)) {
-                    cache.updateQuery({ query: GET_GENRES }, ({ allGenres }) => {
-                        return {
-                            allGenres: allGenres.concat(current),
-                        };
-                    });
-                }
-            });
-        },
+        update: updateCache,
     });
 
     if (!props.show) return null;

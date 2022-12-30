@@ -1,0 +1,16 @@
+POST http://localhost:3000/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries HTTP/1.1
+content-type: application/json
+
+{
+    "date": "2022-01-02",
+    "type": "Hospital",
+    "specialist": "My Mom",
+    "diagnosisCodes": [
+        "S62.5"
+    ],
+    "description": "Chalie bit my finger",
+    "discharge": {
+        "date": "2022-01-16",
+        "criteria": "Finger has healed"
+    }
+}

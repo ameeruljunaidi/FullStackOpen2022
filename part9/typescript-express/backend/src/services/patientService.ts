@@ -1,12 +1,10 @@
 import { v4 as uuid } from "uuid";
-import patientsData from "../data/patients.json";
+import patients from "../data/patients";
 import fs from "fs";
 
-import { Patient } from "../types";
+import { Entry, EntryWithoutId, Patient } from "../types";
 
-const patients: Patient[] = patientsData as Patient[];
-
-const getPatients = (): Omit<Patient, "ssn">[] => {
+export const getPatients = (): Omit<Patient, "ssn">[] => {
     return patients.map(patient => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { ssn, ...rest }: Patient = patient;
@@ -14,14 +12,38 @@ const getPatients = (): Omit<Patient, "ssn">[] => {
     });
 };
 
-const getPatientToAdd = (newPatient: Omit<Patient, "id">): Patient => {
+export const getPatientToAdd = (newPatient: Omit<Patient, "id">): Patient => {
     const id: string = uuid();
-    const newPatientToAdd = { ...newPatient, id: id };
-
-    return newPatientToAdd;
+    return { ...newPatient, id: id };
 };
 
-const writePatientToFile = (newPatient: Patient): Patient[] => {
+export const getEntryToAdd = (newEntry: EntryWithoutId): Entry => {
+    const id: string = uuid();
+    return { ...newEntry, id: id };
+};
+
+export const addPatientEntry = (newEntry: Entry, patientToUpdate: Patient) => {
+    let updatedPatient = patientToUpdate;
+
+    for (const patient of patients) {
+        if (patient.id === patientToUpdate.id) {
+            patient.entries.push(newEntry);
+            updatedPatient = patient;
+        }
+    }
+    return updatedPatient;
+};
+
+export const getPatientById = (patientId: string): Patient | undefined => {
+    return  patients.find(patient => patient.id === patientId);
+};
+
+export const addPatient = (newPatient: Patient): Patient[] => {
+    patients.push(newPatient);
+    return patients;
+};
+
+export const writePatientToFile = (newPatient: Patient): Patient[] => {
     const updatedPatientsData = patients.concat(newPatient);
 
     fs.writeFile(
@@ -34,5 +56,3 @@ const writePatientToFile = (newPatient: Patient): Patient[] => {
 
     return updatedPatientsData;
 };
-
-export default { getPatients, getPatientToAdd, writePatientToFile };

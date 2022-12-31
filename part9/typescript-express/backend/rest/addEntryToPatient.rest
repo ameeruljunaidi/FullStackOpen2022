@@ -10,7 +10,7 @@ content-type: application/json
     ],
     "description": "Chalie bit my finger",
     "discharge": {
-        "date": "2022-01-16",
+        "date": "",
         "criteria": "Finger has healed"
     }
 }

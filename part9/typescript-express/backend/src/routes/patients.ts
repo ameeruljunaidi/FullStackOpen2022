@@ -16,6 +16,7 @@ router.post("/", (req, res) => {
         const newPatient: Patient = toNewPatient(patientService.getPatientToAdd(req.body));
         const newPatients = patientService.addPatient(newPatient);
         res.json({ addedPatient: newPatient, patientsInDb: newPatients });
+
     } catch (error: unknown) {
         let errorMessage = "Something bad happened. ";
         if (error instanceof Error) {
@@ -47,14 +48,15 @@ router.post("/:id/entries", (req, res) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const newEntry = toNewPatientEntry(patientService.getEntryToAdd(req.body));
         const updatedPatient = patientService.addPatientEntry(newEntry, patient);
-        res.send(updatedPatient);
+        res.json({ newEntry, updatedPatient });
 
     } catch (error: unknown) {
         let errorMessage = "Something bad happened: ";
         if (error instanceof Error) {
             errorMessage += error.message;
         }
-        res.send(errorMessage);
+        console.error(errorMessage);
+        res.status(500).json({ error: errorMessage});
     }
 });
 

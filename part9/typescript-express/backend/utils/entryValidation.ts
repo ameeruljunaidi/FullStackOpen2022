@@ -15,11 +15,13 @@ const isDischarge = (something: unknown): something is Discharge => {
         && "date" in something
         && "criteria" in something
         && typeof something.date === "string"
-        && typeof something.criteria === "string";
+        && typeof something.criteria === "string"
+        && something.date !== ""
+        && something.criteria !== "";
 };
 
 export const parseDischarge = (something: unknown): Discharge => {
-    if (!isDischarge(something)) throw new Error("Invalid discharge");
+    if (!isDischarge(something)) throw new Error("Invalid discharge date and/or criteria");
     return something;
 };
 

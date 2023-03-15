@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ name, path }) => {
+const AppBarTab = ({ name, path, onPress }) => {
   return (
     <View>
-      <Link to={path}>
+      <Link to={path} onPress={onPress}>
         <Text style={styles.tab}>{name}</Text>
       </Link>
     </View>

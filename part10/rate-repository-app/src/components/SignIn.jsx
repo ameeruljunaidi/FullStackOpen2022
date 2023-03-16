@@ -50,6 +50,22 @@ const SignInForm = ({ onSubmit }) => {
   );
 };
 
+export const SignInContainer = ({ me, meLoading, onSubmit }) => {
+  if (meLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (me) {
+    return <Text>{me.username} signed in.</Text>;
+  }
+
+  return (
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+    </Formik>
+  );
+};
+
 const SignIn = () => {
   const [signIn] = useSignIn();
   const navigate = useNavigate();
@@ -68,21 +84,7 @@ const SignIn = () => {
     }
   };
 
-  console.log("🚀 | file: SignIn.jsx:77 | me:", me);
-
-  if (meLoading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (me) {
-    return <Text>{me.username} signed in.</Text>;
-  }
-
-  return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
-  );
+  return <SignInContainer me={me} meLoading={meLoading} onSubmit={onSubmit} />;
 };
 
 export default SignIn;

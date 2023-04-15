@@ -1,5 +1,7 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import Text from "./Text";
+import { useNavigate } from "react-router-native";
+import * as Linking from "expo-linking";
 
 // {
 //     id: 'jaredpalmer.formik',
@@ -55,56 +57,100 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
   },
+  showRepoButton: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginHorizontal: 12,
+    marginVertical: 8,
+    backgroundColor: "#0265d4",
+    borderRadius: 4,
+    color: "white",
+    alignItems: "center",
+  },
 });
 
-const RepositoryItem = ({ repository }) => {
-  const { fullName, description, language, forksCount, stargazersCount, ratingAverage, reviewCount, ownerAvatarUrl } =
-    repository;
+const RepositoryItem = ({ repository, showButton }) => {
+  const {
+    id,
+    fullName,
+    description,
+    language,
+    forksCount,
+    stargazersCount,
+    ratingAverage,
+    reviewCount,
+    ownerAvatarUrl,
+    url,
+  } = repository;
+
+  const navigate = useNavigate();
+
+  const onShowRepoPress = () => {
+    console.log("going to repo url");
+    Linking.openURL(url);
+  };
+
+  const onCardPress = () => {
+    console.log("going to repo view");
+    navigate(`/repository/${id}`);
+  };
 
   return (
     <View testID="repositoryItem" style={styles.container}>
-      {/* Top */}
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <Image source={{ uri: ownerAvatarUrl }} style={styles.avatar} />
-        <View style={styles.detail}>
-          <Text fontWeight={"bold"} style={styles.detailItem}>
-            {fullName}
-          </Text>
-          <Text style={styles.detailItem}>{description}</Text>
-          <View style={styles.language}>
-            <Text fontWeight={"bold"} style={styles.languageText}>
-              {language}
+      <Pressable onPress={onCardPress}>
+        {/* Top */}
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <Image source={{ uri: ownerAvatarUrl }} style={styles.avatar} />
+          <View style={styles.detail}>
+            <Text fontWeight={"bold"} style={styles.detailItem}>
+              {fullName}
             </Text>
+            <Text style={styles.detailItem}>{description}</Text>
+            <View style={styles.language}>
+              <Text fontWeight={"bold"} style={styles.languageText}>
+                {language}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      {/* Bottom */}
-      <View style={styles.summary}>
-        <View style={styles.summaryItem}>
-          <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
-            {parseFloat(stargazersCount / 1000).toFixed(1)}k
-          </Text>
-          <Text>Stars</Text>
+
+        {/* Bottom */}
+        <View style={styles.summary}>
+          <View style={styles.summaryItem}>
+            <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
+              {parseFloat(stargazersCount / 1000).toFixed(1)}k
+            </Text>
+            <Text>Stars</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
+              {parseFloat(forksCount / 1000).toFixed(1)}k
+            </Text>
+            <Text>Forks</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
+              {reviewCount}
+            </Text>
+            <Text>Reviews</Text>
+          </View>
+          <View style={styles.summaryItem}>
+            <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
+              {ratingAverage}
+            </Text>
+            <Text>Rating</Text>
+          </View>
         </View>
-        <View style={styles.summaryItem}>
-          <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
-            {parseFloat(forksCount / 1000).toFixed(1)}k
+      </Pressable>
+
+      {/* Show Repo Button */}
+      {showButton && (
+        <Pressable onPress={onShowRepoPress} style={styles.showRepoButton}>
+          <Text fontWeight="bold" style={styles.showRepoButton}>
+            Open in Github
           </Text>
-          <Text>Forks</Text>
-        </View>
-        <View style={styles.summaryItem}>
-          <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
-            {reviewCount}
-          </Text>
-          <Text>Reviews</Text>
-        </View>
-        <View style={styles.summaryItem}>
-          <Text fontWeight={"bold"} style={{ marginBottom: 8 }}>
-            {ratingAverage}
-          </Text>
-          <Text>Rating</Text>
-        </View>
-      </View>
+        </Pressable>
+      )}
     </View>
   );
 };

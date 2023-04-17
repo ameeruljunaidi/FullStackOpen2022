@@ -23,8 +23,9 @@ import { GET_REPOSITORIES } from "../graphql/queries";
 //   return { repositories, loading, refetch: fetchRepositories };
 // };
 
-const useRepositories = () => {
+const useRepositories = ({ orderBy, orderDirection }) => {
   const { data, error, loading } = useQuery(GET_REPOSITORIES, {
+    variables: { orderBy, orderDirection },
     fetchPolicy: "cache-and-network",
   });
 

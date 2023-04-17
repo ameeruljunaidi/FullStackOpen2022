@@ -1,6 +1,8 @@
 import { FlatList, View, StyleSheet } from "react-native";
 import useRepositories from "../hooks/useRepositories";
 import RepositoryItem from "./RepositoryItem";
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 
 const styles = StyleSheet.create({
   separator: {
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({ repositories, selectedSort, setSelectedSort }) => {
   const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
 
   return (
@@ -66,14 +68,41 @@ export const RepositoryListContainer = ({ repositories }) => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem repository={item} />}
       keyExtractor={item => item.id}
+      ListHeaderComponent={() => (
+        <Picker
+          mode="dialog"
+          selectedValue={selectedSort}
+          onValueChange={(itemValue, itemIndex) => {
+            setSelectedSort(itemValue);
+            console.log("selected sort changed to", itemValue, itemIndex);
+          }}>
+          <Picker.Item label="Latest repositories" value="latest" />
+          <Picker.Item label="Highest rated repositories" value="highest" />
+          <Picker.Item label="Lowest rated repositories" value="lowest" />
+        </Picker>
+      )}
     />
   );
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const [selectedSort, setSelectedSort] = useState("latest");
 
-  return <RepositoryListContainer repositories={repositories} />;
+  const map = {
+    latest: { orderBy: "CREATED_AT", orderDirection: "DESC" },
+    highest: { orderBy: "RATING_AVERAGE", orderDirection: "DESC" },
+    lowest: { orderBy: "RATING_AVERAGE", orderDirection: "ASC" },
+  };
+
+  const { repositories } = useRepositories(map[selectedSort]);
+
+  return (
+    <RepositoryListContainer
+      repositories={repositories}
+      selectedSort={selectedSort}
+      setSelectedSort={setSelectedSort}
+    />
+  );
 };
 
 export default RepositoryList;

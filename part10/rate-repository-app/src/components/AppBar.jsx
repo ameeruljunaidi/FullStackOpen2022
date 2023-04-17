@@ -28,8 +28,9 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab name={"Repositories"} path="/" />
-        <AppBarTab name={"Create A Review"} path="/create-review" />
+        {!meLoading && me && <AppBarTab name={"Create A Review"} path="/create-review" />}
         {!meLoading && !me && <AppBarTab name={"Sign In"} path="/signin" />}
+        {!meLoading && !me && <AppBarTab name={"Sign Up"} path="/signup" />}
         {!meLoading && me && <AppBarTab name={"Sign Out"} onPress={signOut} />}
       </ScrollView>
     </View>

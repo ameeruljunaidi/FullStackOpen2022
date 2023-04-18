@@ -17,6 +17,8 @@ const useCreateReview = () => {
       onCompleted: data => console.log("added a new review", data),
       onError: error => console.log("error adding review", error),
     });
+
+    return { result };
   };
 
   return [createReview, result];

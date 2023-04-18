@@ -5,6 +5,7 @@ import { Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useCreateReview from "../hooks/useCreateReview";
+import { useNavigate } from "react-router-native";
 
 const styles = {
   container: {
@@ -64,12 +65,14 @@ const ReviewForm = ({ onSubmit }) => {
 
 const CreateReview = () => {
   const [createReview] = useCreateReview();
+  const navigate = useNavigate();
 
   const onSubmit = async values => {
     const review = { ...values, repoRating: parseInt(values.repoRating) };
 
     try {
-      await createReview(review);
+      const { result } = await createReview(review);
+      if (!result.error) navigate("/");
     } catch (e) {
       console.log(e);
     }

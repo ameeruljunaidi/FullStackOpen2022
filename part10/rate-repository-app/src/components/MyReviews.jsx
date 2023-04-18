@@ -43,7 +43,7 @@ const MyReviews = () => {
     <FlatList
       data={reviews}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => <ReviewItem review={item} action={true} />}
       keyExtractor={({ id }) => id}
     />
   );

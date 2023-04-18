@@ -3,10 +3,24 @@ import useRepositories from "../hooks/useRepositories";
 import RepositoryItem from "./RepositoryItem";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
+import TextInput from "./TextInput";
+import { useDebounce } from "use-debounce";
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
+  },
+  main: {
+    paddingHorizontal: 8,
+    paddingVertical: 12,
+    marginHorizontal: 12,
+    marginVertical: 8,
+    borderWidth: 1,
+    borderRadius: 4,
+    backgroundColor: "white",
+  },
+  mainDefault: {
+    borderColor: "black",
   },
 });
 
@@ -59,7 +73,31 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories, selectedSort, setSelectedSort }) => {
+const RepositoryHeader = ({ selectedSort, setSelectedSort, search, setSearch }) => {
+  return (
+    <View>
+      <TextInput
+        style={[styles.main, styles.mainDefault]}
+        onChangeText={value => setSearch(value)}
+        value={search}
+        placeholder="Search"
+      />
+      <Picker
+        mode="dialog"
+        selectedValue={selectedSort}
+        onValueChange={(itemValue, itemIndex) => {
+          setSelectedSort(itemValue);
+          console.log("selected sort changed to", itemValue, itemIndex);
+        }}>
+        <Picker.Item label="Latest repositories" value="latest" />
+        <Picker.Item label="Highest rated repositories" value="highest" />
+        <Picker.Item label="Lowest rated repositories" value="lowest" />
+      </Picker>
+    </View>
+  );
+};
+
+export const RepositoryListContainer = ({ repositories, selectedSort, setSelectedSort, search, setSearch }) => {
   const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
 
   return (
@@ -68,30 +106,27 @@ export const RepositoryListContainer = ({ repositories, selectedSort, setSelecte
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem repository={item} />}
       keyExtractor={item => item.id}
-      ListHeaderComponent={() => (
-        <Picker
-          mode="dialog"
-          selectedValue={selectedSort}
-          onValueChange={(itemValue, itemIndex) => {
-            setSelectedSort(itemValue);
-            console.log("selected sort changed to", itemValue, itemIndex);
-          }}>
-          <Picker.Item label="Latest repositories" value="latest" />
-          <Picker.Item label="Highest rated repositories" value="highest" />
-          <Picker.Item label="Lowest rated repositories" value="lowest" />
-        </Picker>
-      )}
+      ListHeaderComponent={
+        <RepositoryHeader
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
+          search={search}
+          setSearch={setSearch}
+        />
+      }
     />
   );
 };
 
 const RepositoryList = () => {
   const [selectedSort, setSelectedSort] = useState("latest");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch] = useDebounce(search, 1000);
 
   const map = {
-    latest: { orderBy: "CREATED_AT", orderDirection: "DESC" },
-    highest: { orderBy: "RATING_AVERAGE", orderDirection: "DESC" },
-    lowest: { orderBy: "RATING_AVERAGE", orderDirection: "ASC" },
+    latest: { orderBy: "CREATED_AT", orderDirection: "DESC", searchKeyword: debouncedSearch },
+    highest: { orderBy: "RATING_AVERAGE", orderDirection: "DESC", searchKeyword: debouncedSearch },
+    lowest: { orderBy: "RATING_AVERAGE", orderDirection: "ASC", searchKeyword: debouncedSearch },
   };
 
   const { repositories } = useRepositories(map[selectedSort]);
@@ -101,6 +136,8 @@ const RepositoryList = () => {
       repositories={repositories}
       selectedSort={selectedSort}
       setSelectedSort={setSelectedSort}
+      search={search}
+      setSearch={setSearch}
     />
   );
 };

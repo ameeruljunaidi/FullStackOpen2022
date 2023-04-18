@@ -15,9 +15,11 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { me, meLoading } = useMe();
+  const { me, meLoading } = useMe({ includeReviews: false });
   const apolloClient = useApolloClient();
   const authStorage = useAuthStorage();
+
+  console.log("current me", me);
 
   const signOut = async () => {
     await authStorage.removeAccessToken();
@@ -31,6 +33,7 @@ const AppBar = () => {
         {!meLoading && me && <AppBarTab name={"Create A Review"} path="/create-review" />}
         {!meLoading && !me && <AppBarTab name={"Sign In"} path="/signin" />}
         {!meLoading && !me && <AppBarTab name={"Sign Up"} path="/signup" />}
+        {!meLoading && me && <AppBarTab name={"My Reviews"} path="/my-reviews" />}
         {!meLoading && me && <AppBarTab name={"Sign Out"} onPress={signOut} />}
       </ScrollView>
     </View>

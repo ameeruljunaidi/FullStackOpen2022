@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { GET_ME } from "../graphql/queries";
 
-const useMe = () => {
+const useMe = ({ includeReviews }) => {
   const { data, loading, error } = useQuery(GET_ME, {
+    variables: { includeReviews },
     fetchPolicy: "network-only",
     onCompleted: data => console.log("getMe data: ", data),
   });

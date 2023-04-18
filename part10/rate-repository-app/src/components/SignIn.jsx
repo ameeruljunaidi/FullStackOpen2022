@@ -69,7 +69,7 @@ export const SignInContainer = ({ me, meLoading, onSubmit }) => {
 const SignIn = () => {
   const [signIn] = useSignIn();
   const navigate = useNavigate();
-  const { me, meLoading } = useMe();
+  const { me, meLoading } = useMe({ includeReviews: false });
 
   const onSubmit = async values => {
     const { username, password } = values;

@@ -17,13 +17,18 @@ const ItemSeparator = () => <View style={style.separator} />;
 
 const RepositoryView = () => {
   const { id } = useParams();
-  const { repository, loading } = useRepository(id);
+  const { repository, loading, fetchMore } = useRepository(id);
 
   console.log("repo in view", repository);
 
   if (loading) return <Text>Loading</Text>;
 
   const reviews = repository ? repository.reviews.edges.map(edge => edge.node) : [];
+
+  const onEndReached = () => {
+    fetchMore();
+    console.log("Got more reviews");
+  };
 
   return (
     <FlatList
@@ -32,6 +37,7 @@ const RepositoryView = () => {
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryItem repository={repository} showButton={true} />}
+      onEndReached={onEndReached}
     />
   );
 };

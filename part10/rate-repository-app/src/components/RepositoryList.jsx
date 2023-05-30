@@ -97,7 +97,14 @@ const RepositoryHeader = ({ selectedSort, setSelectedSort, search, setSearch }) 
   );
 };
 
-export const RepositoryListContainer = ({ repositories, selectedSort, setSelectedSort, search, setSearch }) => {
+export const RepositoryListContainer = ({
+  repositories,
+  selectedSort,
+  setSelectedSort,
+  search,
+  setSearch,
+  onEndReached,
+}) => {
   const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
 
   return (
@@ -114,6 +121,7 @@ export const RepositoryListContainer = ({ repositories, selectedSort, setSelecte
           setSearch={setSearch}
         />
       }
+      onEndReached={onEndReached}
     />
   );
 };
@@ -129,7 +137,12 @@ const RepositoryList = () => {
     lowest: { orderBy: "RATING_AVERAGE", orderDirection: "ASC", searchKeyword: debouncedSearch },
   };
 
-  const { repositories } = useRepositories(map[selectedSort]);
+  const { repositories, fetchMore } = useRepositories(map[selectedSort]);
+
+  const onEndReached = () => {
+    console.log("fetched more");
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -138,6 +151,7 @@ const RepositoryList = () => {
       setSelectedSort={setSelectedSort}
       search={search}
       setSearch={setSearch}
+      onEndReached={onEndReached}
     />
   );
 };

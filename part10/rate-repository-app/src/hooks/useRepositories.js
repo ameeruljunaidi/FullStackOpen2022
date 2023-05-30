@@ -24,14 +24,31 @@ import { GET_REPOSITORIES } from "../graphql/queries";
 // };
 
 const useRepositories = ({ orderBy, orderDirection, searchKeyword }) => {
-  const { data, error, loading } = useQuery(GET_REPOSITORIES, {
-    variables: { orderBy, orderDirection, searchKeyword },
+  const variables = { orderBy, orderDirection, searchKeyword, first: 4 };
+
+  const { data, error, loading, fetchMore } = useQuery(GET_REPOSITORIES, {
+    variables: variables,
     fetchPolicy: "cache-and-network",
   });
 
   const repositories = data && data.repositories;
 
-  return { repositories, loading, error };
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+
+  return { repositories, loading, error, fetchMore: handleFetchMore };
 };
 
 export default useRepositories;
